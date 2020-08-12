@@ -34,7 +34,7 @@ class _MenuPageState extends State<MenuPage> {
                 Icons.add,
                 size: 30,
               ),
-              backgroundColor: Colors.lightGreenAccent[700],
+              backgroundColor: Colors.green,
             ),
             title: Text('ADD Device'),
             subtitle: Text('Please click to add button to Add new Device'),

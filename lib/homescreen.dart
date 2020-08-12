@@ -18,7 +18,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentNavIndex = 0;
-  
 
   final List<Widget> screens = [
     PageNumber2(),
@@ -28,11 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),
       appBar: AppBar(
-        backgroundColor: Colors.lightGreenAccent[700],
+        backgroundColor: Colors.green,
         title: Center(
           child: Text('Evde Bahce',
               textAlign: TextAlign.center,
@@ -68,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _currentNavIndex,
         selectedItemColor: Colors.white,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.lightGreenAccent[700],
+        backgroundColor: Colors.green,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),

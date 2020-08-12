@@ -16,8 +16,9 @@ class HomeDrawer extends StatelessWidget {
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(20.0),
-            color: Colors.lightGreenAccent[700],
+            //color: Colors.lightGreenAccent[700],
             //Theme.of(context).accentColor,
+            color: Colors.green,
             child: Center(
               child: Column(
                 children: <Widget>[

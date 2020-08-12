@@ -12,7 +12,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightGreenAccent[700],
+        backgroundColor: Colors.green,
         title: Center(
           child: Text('Evde Bahce',
               textAlign: TextAlign.center,
@@ -38,7 +38,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       body: new ListView(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(50.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.asset(

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "383346375551",
+    "firebase_url": "https://evdebahce-85461.firebaseio.com",
+    "project_id": "evdebahce-85461",
+    "storage_bucket": "evdebahce-85461.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383346375551:android:820639474cc4014be7384a",
+        "android_client_info": {
+          "package_name": "com.example.story"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383346375551-f2gt03m67n5nd6mhjl2oa29d4cq72bhs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABuYXPLI5luvefg3eZtFtt22DC1Y5nY2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383346375551-f2gt03m67n5nd6mhjl2oa29d4cq72bhs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

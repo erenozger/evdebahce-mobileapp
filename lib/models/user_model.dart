@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
 class User {
@@ -14,4 +15,13 @@ class User {
     this.email,
     this.bio,
   });
+  factory User.fromDoc(DocumentSnapshot doc) {
+    return User(
+      id: doc.documentID,
+      name: doc['name'],
+      profileImageUrl: doc['profileImageUrl'],
+      email: doc['email'],
+      bio: doc['bio'] ?? '',
+    );
+  }
 }
