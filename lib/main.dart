@@ -51,6 +51,7 @@ class MyApp extends StatelessWidget {
         routes: {
           LoginScreen.id: (context) => LoginScreen(),
           SignupScreen.id: (context) => SignupScreen(),
+          //'/login-map': (context) => LoginScreen(),
         },
       ),
     );

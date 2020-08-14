@@ -2,22 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:story/homescreen.dart';
 import 'package:story/models/user_data.dart';
+import 'package:story/models/user_model.dart';
 import 'package:story/pages/user_profile.dart';
 import 'package:story/services/auth_service.dart';
+import 'package:story/services/database_service.dart';
 
 class HomeDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String currentUserId = Provider.of<UserData>(context).currentUserId;
+    //var docRec = db.collection("users").doc("currentUserId");
+    //final User currentUser = _setupProfileUser(currentUserId);
+    //print(currentUser);
 
     return Drawer(
+      elevation: 1.5,
       child: Column(
         children: <Widget>[
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(20.0),
-            //color: Colors.lightGreenAccent[700],
-            //Theme.of(context).accentColor,
             color: Colors.green,
             child: Center(
               child: Column(
@@ -56,39 +60,93 @@ class HomeDrawer extends StatelessWidget {
               ),
             ),
           ),
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text(
-              'Profile',
-              style: TextStyle(fontSize: 18.0),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                ListTile(
+                  title: Text('My Profile'),
+                  leading: Icon(Icons.person),
+                  onTap: () {},
+                ),
+                ListTile(
+                  title: Text('Settings'),
+                  leading: Icon(Icons.settings),
+                  onTap: () {},
+                ),
+                ListTile(
+                    title: Text('Notifications'),
+                    leading: Icon(Icons.notifications),
+                    onTap: () {})
+              ],
             ),
-            onTap: null,
           ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text(
-              'Settings',
-              style: TextStyle(fontSize: 18.0),
+          Container(
+            color: Colors.black,
+            width: double.infinity,
+            height: 0.1,
+          ),
+          LogOutButton(),
+          Container(
+            padding: EdgeInsets.all(10),
+            height: 100,
+            child: Column(
+              children: <Widget>[
+                Text(
+                  "V1.0.0",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "INFINIA Mühendislik",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "E-posta : info@infinia.com.tr",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
-            onTap: null,
-          ),
-          ListTile(
-            leading: Icon(Icons.arrow_back),
-            title: Text(
-              'Log Out',
-              style: TextStyle(fontSize: 18.0),
-            ),
-            //onTap: null,
-            onTap: () {
-              //Navigator.of(context).pushNamed(UserProfile.routeName);
-              Navigator.of(context).pop(UserProfile);
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: AuthService.logout,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class LogOutButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.only(bottom: 0.0),
+        height: 30.0,
+        child: RaisedButton(
+          color: Colors.amber,
+          onPressed: () {
+            AuthService.logout();
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: FittedBox(
+            child: Text(
+              'Log Out',
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

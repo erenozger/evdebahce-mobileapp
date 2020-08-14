@@ -13,14 +13,30 @@ class _SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
   String _name, _email, _password;
   bool loading = false;
-  _submit() {
+  String error = '';
+
+  Future<void> _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       print(_name);
       print(_email);
       print(_password);
+      print("ilk asama gecildi!");
       setState(() => loading = true);
-      AuthService.signUpUser(context, _name, _email, _password);
+      print("ikinci asama gecildi!");
+      if (await AuthService.signUpUser(context, _name, _email, _password) !=
+          null) {
+        print("burdayım 111");
+        Navigator.pop(context);
+      } else {
+        print("burdayım 222");
+        setState(() {
+          error = 'Email already using !!';
+          loading = false;
+          setState(() {});
+        });
+      }
+      ;
     }
   }
 
@@ -40,6 +56,10 @@ class _SignupScreenState extends State<SignupScreen> {
                       fontSize: 50.0,
                       fontFamily: 'Billabong',
                     ),
+                  ),
+                  Text(
+                    error,
+                    style: TextStyle(color: Colors.red, fontSize: 14.0),
                   ),
                   Form(
                     key: _formKey,

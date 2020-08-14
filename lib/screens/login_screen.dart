@@ -10,6 +10,7 @@ import 'package:story/shared/loading.dart';
 
 class LoginScreen extends StatefulWidget {
   static final String id = 'login_screen';
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -18,23 +19,30 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   String _email;
   String _password;
+
   bool loading = false;
-  String error = 'hata yazar';
-  final _session = 0;
+
+  String error = '';
 
   Future<void> _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      print(_email);
-      print(_password);
 
       setState(() => loading = true);
-      AuthService.login(_email, _password);
+
+      if (await AuthService.login(context, _email, _password) != null) {
+        //setState(() => loading = true);
+        print("Succesfully logged in");
+      } else {
+        setState(() {
+          error = 'Email or password wrong!!';
+          loading = false;
+          //setState(() {});
+        });
+      }
+      ;
     } else {
-      setState(() {
-        error = 'Email or password wrong!!';
-        loading = false;
-      });
+      print("buraya nerdem geldim");
     }
   }
 
@@ -43,6 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return loading
         ? Loading()
         : Scaffold(
+//    return Scaffold(
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -122,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        Container(
+                        /*Container(
                           width: 180.0,
                           child: IconButton(
                             icon: Icon(Icons.warning),
@@ -132,18 +141,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 title: "Wrong!",
                                 desc: "Wrong password or email",
                               ).show();
-                              /*Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => StoryScreen(
-                                    stories: stories,
-                                  )),
-                        );*/
                             },
                             color: Colors.green,
                             padding: EdgeInsets.all(10),
                           ),
-                        ),
+                        ),*/
                       ],
                     ),
                   )
@@ -152,4 +154,10 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           );
   }
+}
+
+class LoadingOptionClass {
+  final String loadingOption1;
+
+  LoadingOptionClass(this.loadingOption1);
 }
