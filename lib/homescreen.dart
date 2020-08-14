@@ -27,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    final String currentUserId = Provider.of<UserData>(context).currentUserId;
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),
       appBar: AppBar(
@@ -39,13 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontSize: 32.0,
               )),
         ),
-        /*leading: FlatButton(
-          textColor: Colors.white,
-          child: Icon(
-            Icons.menu,
-          ),
-          onPressed: () => print('Menu'),
-        ),*/
         actions: <Widget>[
           FlatButton(
             textColor: Colors.white,
@@ -60,7 +54,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      drawer: HomeDrawer(),
+      drawer: HomeDrawer(
+        currentUserId: currentUserId,
+        userId: currentUserId,
+      ),
       body: screens[_currentNavIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentNavIndex,

@@ -1,14 +1,9 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:story/homescreen.dart';
-import 'package:story/models/user_data.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:story/screens/login_screen.dart';
-import 'package:story/shared/loading.dart';
-//import 'package:rflutter_alert/rflutter_alert.dart';
-//import 'package:story/screens/login_screen.dart';
+import 'package:http/http.dart' as http;
 
 class AuthService {
   static final _auth = FirebaseAuth.instance;
@@ -30,6 +25,28 @@ class AuthService {
           'email': email,
           'profileImageUrl': '',
         });
+        print("id simdi basıyor");
+        print(signedInUser.uid);
+        print("id simdi basıyor");
+        void userCreateHTTP(username, email, password) async {
+          final response = await http
+              .post('http://192.168.88.54:8000/api/register/', body: {
+            "username": username,
+            "email": email,
+            "password": password
+          });
+          if (response.statusCode == 200) {
+            print("veri gönderildi");
+            final parsed = json.decode(response.body);
+            print(parsed);
+          } else {
+            print("veri burda!!");
+            throw Exception('Failed to load stars');
+          }
+          print(response.body);
+        }
+
+        userCreateHTTP(name, email, password);
 
         print(signedInUser.uid);
 

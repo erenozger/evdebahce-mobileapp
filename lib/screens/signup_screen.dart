@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:story/screens/login_screen.dart';
 import 'package:story/services/auth_service.dart';
 import 'package:story/shared/loading.dart';
+import 'package:http/http.dart' as http;
 
 class SignupScreen extends StatefulWidget {
   static final String id = 'signup_screen';
@@ -147,3 +148,14 @@ class _SignupScreenState extends State<SignupScreen> {
           );
   }
 }
+
+/*void userCreateHTTP(username, email, password) async {
+  final response = await http.post('http://192.168.88.54:8000',
+      body: {"username": username, "email": email, "password": password});
+  if (response.statusCode == 200) {
+    print("veri gönderildi");
+    // return selectedStarPosition = parsed;
+  } else {
+    throw Exception('Failed to load stars');
+  }
+}*/

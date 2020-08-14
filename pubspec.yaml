@@ -73,8 +73,15 @@ flutter:
     #- family: Schyler
   fonts:
     - family: Billabong
+    #- family: Noteworthy
       fonts:
         - asset: assets/fonts/Billabong.ttf
+
+ 
+    - family: Noteworthy
+      fonts:
+        - asset: assets/fonts/Noteworthy-Lt.ttf
+        #- asset: assets/fonts/Noteworthy-Lt.ttf
   #       - asset: fonts/Schyler-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic

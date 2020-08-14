@@ -1,22 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:story/models/user_model.dart';
+import 'package:story/services/database_service.dart';
+import 'package:story/utilities/constants.dart';
 
 class UserProfile extends StatefulWidget {
+  final String currentUserId;
+  final String userId;
+
+  UserProfile({this.currentUserId, this.userId});
+
   @override
   _UserProfileState createState() => _UserProfileState();
 }
 
 class _UserProfileState extends State<UserProfile> {
+  User _profileUser;
+
+  @override
+  void initState() {
+    super.initState();
+    _setupProfileUser();
+  }
+
+  _setupProfileUser() async {
+    User profileUser = await DatabaseService.getUserWithId(widget.userId);
+    setState(() {
+      _profileUser = profileUser;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightGreenAccent[700],
+        backgroundColor: Colors.green,
         title: Center(
-          child: Text('Evde Bahce',
+          child: Text('User Profile',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: 'Billabong',
-                fontSize: 32.0,
+                fontFamily: 'Noteworthy',
+                fontSize: 25.0,
               )),
         ),
         actions: <Widget>[
@@ -33,24 +56,23 @@ class _UserProfileState extends State<UserProfile> {
           ),
         ],
       ),
-      body: new ListView(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                "images/productPhoto1.jpg",
-                width: 120,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('description number 1'),
-          ),
-        ],
+      body: FutureBuilder(
+        future: usersRef.document(widget.userId).get(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          User user = User.fromDoc(snapshot.data);
+          return ListView(
+            children: <Widget>[
+              Divider(),
+              Text("hello profile page"),
+              Text(_profileUser.email),
+            ],
+          );
+        },
       ),
     );
   }
