@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:story/models/user_model.dart';
+import 'package:story/pages/faq_page.dart';
 import 'package:story/services/database_service.dart';
 import 'package:story/utilities/constants.dart';
 
@@ -33,26 +34,36 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        iconTheme: IconThemeData(
+          color: Colors.grey[800], //change your color here
+        ),
+        brightness: Brightness.light,
+        backgroundColor: Colors.grey[200],
         title: Center(
           child: Text('User Profile',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Noteworthy',
-                fontSize: 25.0,
+                color: Colors.grey[800],
+                fontSize: 30.0,
+                //fontWeight: FontWeight,
               )),
         ),
         actions: <Widget>[
           FlatButton(
-            textColor: Colors.white,
+            textColor: Colors.grey[800],
             child: Text(
-              'HELP',
+              'FAQ',
               style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            onPressed: () => print("help"),
+            onPressed: () => Navigator.of(context).push(
+              new MaterialPageRoute(
+                builder: (context) => (FAQPage()),
+              ),
+            ),
           ),
         ],
       ),

@@ -69,9 +69,11 @@ class _SignupScreenState extends State<SignupScreen> {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 40.0, vertical: 10.0),
+                              horizontal: 40.0, vertical: 0.0),
                           child: TextFormField(
-                            decoration: InputDecoration(labelText: 'User Name'),
+                            decoration: InputDecoration(
+                                icon: Icon(Icons.person_add),
+                                labelText: 'User Name'),
                             validator: (input) =>
                                 input.trim().isEmpty || input.contains(' ')
                                     ? 'Please enter valid name!!'
@@ -81,9 +83,10 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 40.0, vertical: 10.0),
+                              horizontal: 40.0, vertical: 0.0),
                           child: TextFormField(
-                            decoration: InputDecoration(labelText: 'Email'),
+                            decoration: InputDecoration(
+                                icon: Icon(Icons.email), labelText: 'Email'),
                             validator: (input) => !input.contains('@') ||
                                     input.contains(' ') ||
                                     !input.contains('\.')
@@ -94,9 +97,11 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 40.0, vertical: 10.0),
+                              horizontal: 40.0, vertical: 0.0),
                           child: TextFormField(
-                            decoration: InputDecoration(labelText: 'Password'),
+                            decoration: InputDecoration(
+                                icon: Icon(Icons.lock_open),
+                                labelText: 'Password'),
                             validator: (input) =>
                                 input.length < 6 || input.contains(' ')
                                     ? 'Password must be at least 6 characters'
@@ -112,19 +117,45 @@ class _SignupScreenState extends State<SignupScreen> {
                           width: 180.0,
                           child: FlatButton(
                             onPressed: _submit,
-                            color: Colors.green,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                side: BorderSide(color: Colors.black)),
                             padding: EdgeInsets.all(10),
                             child: Text(
                               'Sign-Up',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontSize: 18.0,
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
-                        Container(
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "Already have an Account ? ",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                "Sign In",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        /*Container(
                           width: 180.0,
                           child: FlatButton(
                             onPressed: () => Navigator.pop(context),
@@ -138,7 +169,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               ),
                             ),
                           ),
-                        ),
+                        ),*/
                       ],
                     ),
                   )
@@ -148,14 +179,3 @@ class _SignupScreenState extends State<SignupScreen> {
           );
   }
 }
-
-/*void userCreateHTTP(username, email, password) async {
-  final response = await http.post('http://192.168.88.54:8000',
-      body: {"username": username, "email": email, "password": password});
-  if (response.statusCode == 200) {
-    print("veri gönderildi");
-    // return selectedStarPosition = parsed;
-  } else {
-    throw Exception('Failed to load stars');
-  }
-}*/

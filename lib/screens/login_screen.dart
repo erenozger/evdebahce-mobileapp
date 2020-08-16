@@ -48,6 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return loading
         ? Loading()
         : Scaffold(
@@ -57,10 +58,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  Image.asset(
+                    "assets/images/loginPhoto.png",
+                    height: size.height * 0.20,
+                  ),
                   Text(
                     'Evde Bahce',
                     style: TextStyle(
-                      fontSize: 50.0,
+                      fontSize: 40.0,
                       fontFamily: 'Billabong',
                     ),
                   ),
@@ -75,9 +80,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 40.0, vertical: 10.0),
+                              horizontal: 40.0, vertical: 0.0),
                           child: TextFormField(
-                            decoration: InputDecoration(labelText: 'Email'),
+                            decoration: InputDecoration(
+                                icon: Icon(Icons.mail), labelText: 'Email'),
                             validator: (input) => !input.contains('@')
                                 ? 'Email validation error!!'
                                 : null,
@@ -86,9 +92,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 40.0, vertical: 10.0),
+                              horizontal: 40.0, vertical: 0.0),
                           child: TextFormField(
-                            decoration: InputDecoration(labelText: 'Password'),
+                            decoration: InputDecoration(
+                                icon: Icon(Icons.lock_open),
+                                suffixIcon: Icon(
+                                  Icons.visibility,
+                                  color: Colors.black,
+                                  size: 20,
+                                ),
+                                labelText: 'Password'),
                             validator: (input) => input.length < 6
                                 ? 'Password must be at least 6 characters'
                                 : null,
@@ -97,26 +110,56 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: 20.0,
+                          height: 30,
                         ),
                         Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           width: 180.0,
                           child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                side: BorderSide(color: Colors.black)),
                             onPressed: _submit,
-                            color: Colors.green,
+                            color: Colors.white,
                             padding: EdgeInsets.all(10),
                             child: Text(
                               'Login',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontSize: 18.0,
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
-                        Container(
-                          width: 180.0,
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "Don’t have an Account ? ",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, SignupScreen.id);
+                              },
+                              child: Text(
+                                "Sign Up",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+
+                        /*Container(
+                          width: size.width * 0.50,
                           child: FlatButton(
                             onPressed: () =>
                                 Navigator.pushNamed(context, SignupScreen.id),
@@ -130,25 +173,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-                        ),
-                        /*Container(
-                          width: 180.0,
-                          child: IconButton(
-                            icon: Icon(Icons.warning),
-                            onPressed: () {
-                              Alert(
-                                context: context,
-                                title: "Wrong!",
-                                desc: "Wrong password or email",
-                              ).show();
-                            },
-                            color: Colors.green,
-                            padding: EdgeInsets.all(10),
-                          ),
                         ),*/
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
