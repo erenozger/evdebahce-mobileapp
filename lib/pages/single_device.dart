@@ -1,6 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:story/models/user_data.dart';
+import 'package:story/pages/faq_page.dart';
 
 class DeviceDetails extends StatefulWidget {
   @override
@@ -10,28 +13,40 @@ class DeviceDetails extends StatefulWidget {
 class _DeviceDetailsState extends State<DeviceDetails> {
   @override
   Widget build(BuildContext context) {
+    final String currentUserId = Provider.of<UserData>(context).currentUserId;
+    print("burda id basılacak " + '$currentUserId');
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        iconTheme: IconThemeData(
+          color: Colors.grey[800], //change your color here
+        ),
+        brightness: Brightness.light,
+        backgroundColor: Colors.grey[200],
         title: Center(
-          child: Text('Evde Bahce',
+          child: Text('Single Device',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: 'Billabong',
-                fontSize: 32.0,
+                fontFamily: 'Noteworthy',
+                color: Colors.grey[800],
+                fontSize: 30.0,
+                //fontWeight: FontWeight,
               )),
         ),
         actions: <Widget>[
           FlatButton(
-            textColor: Colors.white,
+            textColor: Colors.grey[800],
             child: Text(
-              'HELP',
+              'FAQs',
               style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            onPressed: () => print("help"),
+            onPressed: () => Navigator.of(context).push(
+              new MaterialPageRoute(
+                builder: (context) => (FAQPage()),
+              ),
+            ),
           ),
         ],
       ),

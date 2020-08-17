@@ -29,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final String currentUserId = Provider.of<UserData>(context).currentUserId;
+    print(currentUserId);
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),
       appBar: AppBar(
@@ -51,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
           FlatButton(
             textColor: Colors.grey[800],
             child: Text(
-              'FAQ',
+              'FAQs',
               style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
@@ -77,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: BottomNavigationBar(
           currentIndex: _currentNavIndex,
-          selectedItemColor: Colors.grey[900],
+          selectedItemColor: Colors.green, //Colors.grey[900],
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.grey[200],
           selectedFontSize: 16,

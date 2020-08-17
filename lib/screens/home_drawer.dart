@@ -144,6 +144,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         "E-posta : info@infinia.com.tr",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        _profileUser.id,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 10),
+                      ),
                     ],
                   ),
                 ),

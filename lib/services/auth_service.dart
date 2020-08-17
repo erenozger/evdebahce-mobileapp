@@ -25,9 +25,8 @@ class AuthService {
           'email': email,
           'profileImageUrl': '',
         });
-        print("id simdi basıyor");
-        print(signedInUser.uid);
-        print("id simdi basıyor");
+        print("id simdi basıyor" + '$signedInUser.uid');
+
         void userCreateHTTP(username, email, password) async {
           final response = await http
               .post('http://192.168.88.54:8000/api/register/', body: {

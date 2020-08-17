@@ -17,6 +17,7 @@ class _FAQPageState extends State<FAQPage> {
     List<Question> questions = [];
     for (var u in jsonData) {
       Question question = Question(u["index"], u["question"], u["answer"]);
+
       questions.add(question);
     }
 
@@ -154,7 +155,7 @@ class _FAQPageState extends State<FAQPage> {
         elevation: 0,
         title: Center(
           child: Text(
-            "FAQ",
+            "FAQs",
             style: TextStyle(
                 color: Colors.grey[800],
                 fontSize: 20,

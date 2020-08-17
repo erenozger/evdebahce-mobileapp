@@ -26,9 +26,6 @@ class MyApp extends StatelessWidget {
           Provider.of<UserData>(context).currentUserId = snapshot.data.uid;
           return HomeScreen();
         } else {
-          /*return StoryScreen(
-            stories: stories,
-          );*/
           return LoginScreen();
         }
       },
@@ -46,12 +43,10 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        //home: StoryScreen(stories: stories),
         home: _getScreenId(),
         routes: {
           LoginScreen.id: (context) => LoginScreen(),
           SignupScreen.id: (context) => SignupScreen(),
-          //'/login-map': (context) => LoginScreen(),
         },
       ),
     );

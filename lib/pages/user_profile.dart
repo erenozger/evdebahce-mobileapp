@@ -53,7 +53,7 @@ class _UserProfileState extends State<UserProfile> {
           FlatButton(
             textColor: Colors.grey[800],
             child: Text(
-              'FAQ',
+              'FAQs',
               style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
