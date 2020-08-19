@@ -36,16 +36,16 @@ class _LoginScreenState extends State<LoginScreen> {
         //print(SharedPreferences.getInstance());
         //SharedPreferences.setMockInitialValues({});
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        saveLogin(djangoUser.auth_token, prefs);
+        saveLogin(djangoUser.auth_token, djangoUser.id, prefs);
         if (prefs != null) {
           var token = prefs.getString('user_token');
+          var token2 = prefs.getInt('user_id');
           print(token);
+          print(token2);
           print("local storage not null veri var içinde!");
         } else {
           print("local storage null veri yok !");
         }
-
-        
 
         print("django user geldi!!" + djangoUser.auth_token);
       } else {
@@ -192,10 +192,11 @@ class LoadingOptionClass {
   LoadingOptionClass(this.loadingOption1);
 }
 
-saveLogin(userToken, prefs) async {
+saveLogin(userToken, userID, prefs) async {
   //await LoginScreen.init();
   //localStorage.setBool('is_login', true);
   //SharedPreferences prefs = await SharedPreferences.getInstance();
   //localStorage.setString('user_token', userToken);
   prefs.setString('user_token', userToken);
+  prefs.setInt('user_id', userID);
 }

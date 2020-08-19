@@ -61,6 +61,7 @@ class AuthService {
     print("log outdayız");
     if (prefs != null) {
       var token = prefs.getString('user_token');
+      var token2 = prefs.getInt('user_id');
       print("log out daki token burda " + token);
       print("log outdayız local storage not null veri var içinde!");
     } else {

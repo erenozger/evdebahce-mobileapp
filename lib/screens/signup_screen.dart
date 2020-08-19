@@ -19,6 +19,7 @@ class _SignupScreenState extends State<SignupScreen> {
   Future<void> _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      
       print(_name);
       print(_email);
       print(_password);
