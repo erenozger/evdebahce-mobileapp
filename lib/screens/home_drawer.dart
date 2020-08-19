@@ -162,6 +162,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
 }
 
 class LogOutButton extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return Padding(

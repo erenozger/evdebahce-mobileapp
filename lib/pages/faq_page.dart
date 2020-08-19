@@ -61,7 +61,7 @@ class _FAQPageState extends State<FAQPage> {
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
                               color: Colors.grey[200],
-                              elevation: 20.0,
+                              elevation: 5.0,
                               child: Container(
                                 child: ListTile(
                                   leading: Icon(
@@ -120,7 +120,7 @@ class _FAQPageState extends State<FAQPage> {
           borderRadius: BorderRadius.circular(20.0),
         ),
         color: Colors.blue[400],
-        elevation: 20.0,
+        elevation: 5.0,
         child: ListTile(
           leading: Icon(
             (Icons.forward),
@@ -185,3 +185,5 @@ class Question {
 
   Question(this.index, this.question, this.answer);
 }
+
+

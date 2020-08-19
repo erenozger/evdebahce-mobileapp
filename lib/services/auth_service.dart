@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:story/models/django_user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   static final _auth = FirebaseAuth.instance;
@@ -25,19 +27,17 @@ class AuthService {
           'email': email,
           'profileImageUrl': '',
         });
-        print("id simdi basıyor" + '$signedInUser.uid');
 
         void userCreateHTTP(username, email, password) async {
           final response = await http
-              .post('http://192.168.88.54:8000/api/register/', body: {
-            "username": username,
+              .post('http://192.168.88.21:8000/api/auth/register', body: {
             "email": email,
+            "first_name": username,
+            "last_name": "",
             "password": password
           });
           if (response.statusCode == 200) {
             print("veri gönderildi");
-            final parsed = json.decode(response.body);
-            print(parsed);
           } else {
             print("veri burda!!");
             throw Exception('Failed to load stars');
@@ -56,7 +56,16 @@ class AuthService {
     }
   }
 
-  static void logout() {
+  static void logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("log outdayız");
+    if (prefs != null) {
+      var token = prefs.getString('user_token');
+      print("log out daki token burda " + token);
+      print("log outdayız local storage not null veri var içinde!");
+    } else {
+      print("local storage null veri yok !");
+    }
     _auth.signOut();
   }
 
@@ -66,6 +75,32 @@ class AuthService {
 
       return 1;
     } catch (e) {
+      return null;
+    }
+  }
+
+  //static loginAPI(BuildContext context, String email, String password) async {
+  static Future<DjangoUser> loginAPI(
+      BuildContext context, String email, String password) async {
+    try {
+      print("LoginAPI fonksiyonu calısti");
+      final response = await http.post(
+          'http://192.168.88.21:8000/api/auth/login',
+          body: {"email": email, "password": password});
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+
+        DjangoUser djangoUser = new DjangoUser.fromJson(jsonData);
+        print('auth_token print here ' + djangoUser.auth_token);
+
+        return djangoUser;
+      } else {
+        print("veri burda!!");
+        throw Exception('Failed to load user');
+      }
+      //print(response.body);
+    } catch (e) {
+      print("fonksiyon calıstı error buldu");
       return null;
     }
   }

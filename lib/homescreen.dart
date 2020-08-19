@@ -4,9 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:story/models/user_data.dart';
 import 'package:story/pages/faq_page.dart';
 import 'package:story/screens/home_drawer.dart';
-import 'package:story/screens/login_screen.dart';
-import 'package:story/screens/signup_screen.dart';
-import 'package:story/models/menu_options.dart';
 import 'package:story/pages/menu_page.dart';
 import 'package:story/pages/dashboard_page.dart';
 import 'package:story/pages/page3.dart';
@@ -88,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title: Text(
                 'Dashboard',
                 style: TextStyle(
-                  fontFamily: 'Noteworthy',
+                  fontFamily: 'Avenir',
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -98,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title: Text(
                 'My Devices',
                 style: TextStyle(
-                  fontFamily: 'Noteworthy',
+                  fontFamily: 'Avenir',
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -108,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title: Text(
                 'Bluetooth',
                 style: TextStyle(
-                  fontFamily: 'Noteworthy',
+                  fontFamily: 'Avenir',
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -118,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title: Text(
                 'Notifications',
                 style: TextStyle(
-                  fontFamily: 'Noteworthy',
+                  fontFamily: 'Avenir',
                   fontWeight: FontWeight.bold,
                 ),
               ),

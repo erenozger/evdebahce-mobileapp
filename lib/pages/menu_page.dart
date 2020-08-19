@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:story/models/menu_options.dart';
+import 'package:story/pages/addDevice_page.dart';
 import 'package:story/pages/detail_Device_page.dart';
 import 'package:story/pages/single_device.dart';
 import 'package:story/shared/loading.dart';
@@ -21,7 +22,7 @@ class _MenuPageState extends State<MenuPage> {
     var data = await http
         .get("http://www.json-generator.com/api/json/get/cfbHHzozhe?indent=2");
     var jsonData = json.decode(data.body);
-    //print("jsondata burda : " + "$jsonData");
+
     List<Device> allDevices = [];
     for (var dev in jsonData) {
       try {
@@ -106,7 +107,8 @@ class _MenuPageState extends State<MenuPage> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, a, b) =>
                                       DetailDevicePage(
-                                          recordDevice: snapshot.data[index], currentPosition : index+1),
+                                          recordDevice: snapshot.data[index],
+                                          currentPosition: index + 1),
                                 ),
                               );
                             },
@@ -223,6 +225,12 @@ class _MenuPageState extends State<MenuPage> {
             leading: FloatingActionButton(
               onPressed: () {
                 print('device ekleme talebi alındı');
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, a, b) => AddDevicePage(),
+                  ),
+                );
               },
               child: Icon(
                 Icons.add,

@@ -139,10 +139,10 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
               borderRadius: BorderRadius.circular(20.0),
             ),
             color: Colors.grey[200],
-            elevation: 20.0,
+            elevation: 5.0,
             child: Icon(
               Icons.add,
-              size: 60,
+              size: 40,
             ),
           ),
         ),
@@ -283,18 +283,18 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
                 height: 250,
               ),
             ),*/
-            Positioned(
-              right: -10,
+            /*Positioned(
+              right: 10,
               child: Text(
                 '$currentPosition',
                 style: TextStyle(
                     fontFamily: 'Avenir',
-                    fontSize: 247,
+                    fontSize: 55,
                     color: Colors.grey[900].withOpacity(0.10),
                     fontWeight: FontWeight.w900),
                 textAlign: TextAlign.left,
               ),
-            ),
+            ),*/
             IconButton(
               icon: Icon(Icons.arrow_back_ios),
               onPressed: () {

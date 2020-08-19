@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:story/data.dart';
-import 'package:story/homescreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:story/models/django_user.dart';
 import 'package:story/screens/signup_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:story/screens/story_screen.dart';
 import 'package:story/services/auth_service.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:story/shared/loading.dart';
+import 'package:story/services/shared_service.dart';
+
+import '../main.dart';
 
 class LoginScreen extends StatefulWidget {
   static final String id = 'login_screen';
@@ -19,6 +19,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   String _email;
   String _password;
+  String _userToken;
+  DjangoUser djangoUser;
 
   bool loading = false;
 
@@ -27,20 +29,38 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      if (await AuthService.loginAPI(context, _email, _password) != null) {
+        djangoUser = await AuthService.loginAPI(context, _email, _password);
 
+        //print({localStorage.get('user_token')});
+        //print(SharedPreferences.getInstance());
+        //SharedPreferences.setMockInitialValues({});
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        saveLogin(djangoUser.auth_token, prefs);
+        if (prefs != null) {
+          var token = prefs.getString('user_token');
+          print(token);
+          print("local storage not null veri var içinde!");
+        } else {
+          print("local storage null veri yok !");
+        }
+
+        
+
+        print("django user geldi!!" + djangoUser.auth_token);
+      } else {
+        print("kullanıcı giremedi");
+      }
       setState(() => loading = true);
 
       if (await AuthService.login(context, _email, _password) != null) {
-        //setState(() => loading = true);
         print("Succesfully logged in");
       } else {
         setState(() {
           error = 'Email or password wrong!!';
           loading = false;
-          //setState(() {});
         });
       }
-      ;
     } else {
       print("buraya nerdem geldim");
     }
@@ -52,7 +72,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return loading
         ? Loading()
         : Scaffold(
-//    return Scaffold(
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -157,23 +176,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             )
                           ],
                         ),
-
-                        /*Container(
-                          width: size.width * 0.50,
-                          child: FlatButton(
-                            onPressed: () =>
-                                Navigator.pushNamed(context, SignupScreen.id),
-                            color: Colors.green,
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              'Go to Sign-up',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.0,
-                              ),
-                            ),
-                          ),
-                        ),*/
                       ],
                     ),
                   ),
@@ -188,4 +190,12 @@ class LoadingOptionClass {
   final String loadingOption1;
 
   LoadingOptionClass(this.loadingOption1);
+}
+
+saveLogin(userToken, prefs) async {
+  //await LoginScreen.init();
+  //localStorage.setBool('is_login', true);
+  //SharedPreferences prefs = await SharedPreferences.getInstance();
+  //localStorage.setString('user_token', userToken);
+  prefs.setString('user_token', userToken);
 }
