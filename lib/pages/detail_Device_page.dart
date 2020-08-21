@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:story/pages/addPlant_page.dart';
 import 'package:story/pages/menu_page.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:http/http.dart' as http;
@@ -7,7 +8,7 @@ import 'dart:convert';
 import 'package:story/shared/loading.dart';
 
 class DetailDevicePage extends StatefulWidget {
-  final Device recordDevice;
+  final DeviceNew recordDevice;
   final int currentPosition;
 
   const DetailDevicePage(
@@ -56,7 +57,8 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
     "https://smartgardenguide.com/wp-content/uploads/2019/09/click-and-grow-smart-garden-9-photo-3-1024x680.jpeg",
     "https://athomeinthefuture.com/wp-content/uploads/2016/08/clickandgrow-720x447@2x.jpg"
   ];
-  Device recordDevice;
+  //Device recordDevice;
+  DeviceNew recordDevice;
   int currentPosition;
   _DetailDevicePageState(this.recordDevice, this.currentPosition);
   List<Color> colorList = [
@@ -68,10 +70,13 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
   @override
   void initState() {
     super.initState();
+    double waterLevel = double.parse(recordDevice.device_WaterLevel);
+
     waterMap.putIfAbsent(
-        "Water Level", () => recordDevice.device_WaterLevel * 100);
-    waterMap.putIfAbsent(
-        "Empty Area", () => (100 - (recordDevice.device_WaterLevel * 100)));
+        //"Water Level", () => recordDevice.device_WaterLevel * 100);
+        "Water Level",
+        () => waterLevel * 100);
+    waterMap.putIfAbsent("Empty Area", () => (100 - (waterLevel * 100)));
   }
 
   Widget _plantsWidget() {
@@ -105,17 +110,17 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        _onePlantCard(snapshot.data[0].spot_1_ID),
-                        _onePlantCard(snapshot.data[0].spot_2_ID),
-                        _onePlantCard(snapshot.data[0].spot_3_ID),
+                        _onePlantCard(snapshot.data[0].spot_1_ID, 1),
+                        _onePlantCard(snapshot.data[0].spot_2_ID, 2),
+                        _onePlantCard(snapshot.data[0].spot_3_ID, 3),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        _onePlantCard(snapshot.data[0].spot_4_ID),
-                        _onePlantCard(snapshot.data[0].spot_5_ID),
-                        _onePlantCard(snapshot.data[0].spot_6_ID),
+                        _onePlantCard(snapshot.data[0].spot_4_ID, 4),
+                        _onePlantCard(snapshot.data[0].spot_5_ID, 5),
+                        _onePlantCard(snapshot.data[0].spot_6_ID, 6),
                       ],
                     ),
                   ],
@@ -126,23 +131,44 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
     );
   }
 
-  Widget _onePlantCard(int plantID) {
+  Widget _onePlantCard(int plantID, int spotPoint) {
     if (plantID == null) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          height: 100,
-          width: 100,
-          child: Card(
-            shadowColor: Colors.grey[700],
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
+      return InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, a, b) => AddPlantPage(
+                recordDevice: recordDevice,
+                currentSpot: spotPoint,
+              ),
             ),
-            color: Colors.grey[200],
-            elevation: 5.0,
-            child: Icon(
-              Icons.add,
-              size: 40,
+          );
+          print("go plant");
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            height: 100,
+            width: 100,
+            child: Card(
+              shadowColor: Colors.grey[700],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              color: Colors.grey[200],
+              elevation: 5.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("Spot $spotPoint"),
+                  Icon(
+                    Icons.add,
+                    size: 40,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -171,7 +197,7 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
                           recordDevice.device_Name,
                           style: TextStyle(
                             fontFamily: 'Avenir',
-                            fontSize: 40,
+                            fontSize: 30,
                             color: Colors.green,
                             fontWeight: FontWeight.w900,
                           ),

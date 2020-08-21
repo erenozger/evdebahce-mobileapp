@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:story/models/django_user.dart';
+import 'package:story/pages/wifi_Connection_page.dart';
 import 'package:story/screens/login_screen.dart';
 import 'package:story/services/database_service.dart';
 
@@ -26,7 +27,6 @@ class _AddDevicePageState extends State<AddDevicePage> {
       print(_deviceName);
       print(_deviceType);
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      print("log outdayız");
       if (prefs != null) {
         var token = prefs.getString('user_token');
         var token2 = prefs.getInt('user_id');
@@ -159,6 +159,40 @@ class _AddDevicePageState extends State<AddDevicePage> {
                       children: <Widget>[
                         Text(
                           'Next',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Avenir',
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          size: 30,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: FractionalOffset.bottomRight,
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        new MaterialPageRoute(
+                          builder: (context) => new WifiConnectionPage(),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          'Skip',
                           style: TextStyle(
                             color: Colors.black,
                             fontFamily: 'Avenir',

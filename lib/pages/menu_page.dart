@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:story/models/menu_options.dart';
 import 'package:story/pages/addDevice_page.dart';
 import 'package:story/pages/detail_Device_page.dart';
@@ -17,7 +18,8 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage> {
   int _selectedOption = 0;
-  List<Device> allDevices = [];
+  int _takenUserID = 0;
+  /*List<Device> allDevices = [];
   Future<List<Device>> _getDevices() async {
     var data = await http
         .get("http://www.json-generator.com/api/json/get/cfbHHzozhe?indent=2");
@@ -41,14 +43,52 @@ class _MenuPageState extends State<MenuPage> {
         print(e);
       }
     }
-
     return allDevices;
+  }*/
+  //DJANGO API REQUEST
+  List<DeviceNew> allNewDevices = [];
+  Future<List<DeviceNew>> _getNewDevices() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs != null) {
+      var takenUserID = prefs.getInt('user_id');
+      _takenUserID = takenUserID;
+      print("TAKEN USER ID ->" + "$_takenUserID");
+    } else {
+      print("local storage null veri yok !");
+    }
+    var data = await http.get(
+        //"http://192.168.88.21:8000/userDevices/get_userDevice/?user_ID=$_takenUserID");
+        "https://next.json-generator.com/api/json/get/EygJ-2PMt");
+    var jsonData = json.decode(data.body);
+    print("data taken!");
+    print(jsonData);
+    List<DeviceNew> allNewDevices = [];
+    for (var i in jsonData) {
+      try {
+        DeviceNew deviceNew = DeviceNew(
+            i["id"],
+            i["user_id"],
+            i["device_id"],
+            i["connection_Date"],
+            i["wifi_name"],
+            i["wifi_password"],
+            i["device_WaterLevel"],
+            i["device_Name"]);
+        allNewDevices.add(deviceNew);
+      } catch (e) {
+        print("matching hatası");
+        print(e);
+      }
+    }
+    print(allNewDevices);
+    return allNewDevices;
   }
 
   Widget _devicesWidget() {
     return Container(
       child: FutureBuilder(
-          future: _getDevices(),
+          //future: _getDevices(), //hazır json kullanarak
+          future: _getNewDevices(), //django backend API
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               print("data null");
@@ -60,11 +100,6 @@ class _MenuPageState extends State<MenuPage> {
                   Loading(),
                 ],
               );
-              /*Container(
-                child: Center(
-                  child: Text("Loading..."),
-                ),
-              );*/
             } else {
               return SafeArea(
                 child: Column(
@@ -135,7 +170,7 @@ class _MenuPageState extends State<MenuPage> {
                                               snapshot.data[index].device_Name,
                                               style: TextStyle(
                                                 fontFamily: 'Avenir',
-                                                fontSize: 24,
+                                                fontSize: 20,
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w900,
                                               ),
@@ -147,7 +182,7 @@ class _MenuPageState extends State<MenuPage> {
                                                   .data[index].connection_Date,
                                               style: TextStyle(
                                                 fontFamily: 'Avenir',
-                                                fontSize: 23,
+                                                fontSize: 18,
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -194,12 +229,6 @@ class _MenuPageState extends State<MenuPage> {
                   ],
                 ),
               );
-
-              /*return Container(
-                child: Center(
-                  child: Text("All devices reached..."),
-                ),
-              );*/
             }
           }),
     );
@@ -243,58 +272,6 @@ class _MenuPageState extends State<MenuPage> {
           ),
         ),
         _devicesWidget(),
-        /*Expanded(
-          child: ListView.builder(
-            itemCount: options.length + 2,
-            itemBuilder: (BuildContext context, int index) {
-              if (index == 0) {
-                return SizedBox(height: 15.0);
-              } else if (index == options.length + 1) {
-                return SizedBox(height: 100.0);
-              }
-              return Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.all(10.0),
-                width: double.infinity,
-                height: 80.0,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: _selectedOption == index - 1
-                      ? Border.all(color: Colors.black26)
-                      : null,
-                ),
-                child: ListTile(
-                  leading: options[index - 1].icon,
-                  title: Text(
-                    options[index - 1].title,
-                    style: TextStyle(
-                      color: _selectedOption == index - 1
-                          ? Colors.black
-                          : Colors.grey[600],
-                    ),
-                  ),
-                  subtitle: Text(
-                    options[index - 1].subtitle,
-                    style: TextStyle(
-                      color: _selectedOption == index - 1
-                          ? Colors.black
-                          : Colors.grey,
-                    ),
-                  ),
-                  selected: _selectedOption == index - 1,
-                  onTap: () {
-                    setState(() {
-                      _selectedOption = index - 1;
-                      Navigator.of(context).push(new MaterialPageRoute(
-                          builder: (context) => new DeviceDetails()));
-                    });
-                  },
-                ),
-              );
-            },
-          ),
-        ),*/
       ],
     );
   }
@@ -309,7 +286,7 @@ class Device {
   final String connection_Date;
   final String wifi_Name;
   final String wifi_Password;
-  final double device_WaterLevel;
+  final String device_WaterLevel;
 
   Device(
       this.index,
@@ -321,4 +298,25 @@ class Device {
       this.wifi_Name,
       this.wifi_Password,
       this.device_WaterLevel);
+}
+
+class DeviceNew {
+  final int id;
+  final int user_id;
+  final int device_id;
+  final String connection_Date;
+  final String wifi_name;
+  final String wifi_password;
+  final String device_WaterLevel;
+  final String device_Name;
+
+  DeviceNew(
+      this.id,
+      this.user_id,
+      this.device_id,
+      this.connection_Date,
+      this.wifi_name,
+      this.wifi_password,
+      this.device_WaterLevel,
+      this.device_Name);
 }
