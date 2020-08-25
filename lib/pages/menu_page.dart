@@ -17,35 +17,15 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
+  @override
+  void initState() {
+    super.initState();
+    _getNewDevices();
+  }
+
   int _selectedOption = 0;
   int _takenUserID = 0;
-  /*List<Device> allDevices = [];
-  Future<List<Device>> _getDevices() async {
-    var data = await http
-        .get("http://www.json-generator.com/api/json/get/cfbHHzozhe?indent=2");
-    var jsonData = json.decode(data.body);
 
-    List<Device> allDevices = [];
-    for (var dev in jsonData) {
-      try {
-        Device device = Device(
-            dev["index"],
-            dev["uDevice_ID"],
-            dev["user_ID"],
-            dev["device_ID"],
-            dev["device_Name"],
-            dev["connection_Date"],
-            dev["wifi_Name"],
-            dev["wifi_Password"],
-            dev["device_WaterLevel"]);
-        allDevices.add(device);
-      } catch (e) {
-        print(e);
-      }
-    }
-    return allDevices;
-  }*/
-  //DJANGO API REQUEST
   List<DeviceNew> allNewDevices = [];
   Future<List<DeviceNew>> _getNewDevices() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -57,11 +37,10 @@ class _MenuPageState extends State<MenuPage> {
       print("local storage null veri yok !");
     }
     var data = await http.get(
-        //"http://192.168.88.21:8000/userDevices/get_userDevice/?user_ID=$_takenUserID");
-        "https://next.json-generator.com/api/json/get/EygJ-2PMt");
+        "http://192.168.88.17:8000/userDevices/get_userDevice/?user_ID=$_takenUserID");
+    //"https://next.json-generator.com/api/json/get/EygJ-2PMt");
     var jsonData = json.decode(data.body);
-    print("data taken!");
-    print(jsonData);
+
     List<DeviceNew> allNewDevices = [];
     for (var i in jsonData) {
       try {
@@ -106,7 +85,7 @@ class _MenuPageState extends State<MenuPage> {
                   //crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
-                      height: 10,
+                      height: 0,
                     ),
                     Text(
                       'Your Devices',
@@ -118,7 +97,7 @@ class _MenuPageState extends State<MenuPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 0,
                     ),
                     Container(
                       height: 400,
@@ -188,7 +167,7 @@ class _MenuPageState extends State<MenuPage> {
                                               ),
                                               textAlign: TextAlign.left,
                                             ),
-                                            SizedBox(height: 20),
+                                            SizedBox(height: 10),
                                             Row(
                                               children: <Widget>[
                                                 Text(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:story/pages/addPlant_page.dart';
+import 'package:story/pages/detail_Plant_page.dart';
 import 'package:story/pages/menu_page.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:http/http.dart' as http;
@@ -21,18 +22,25 @@ class DetailDevicePage extends StatefulWidget {
 }
 
 class _DetailDevicePageState extends State<DetailDevicePage> {
+  DeviceNew recordDevice;
+  int currentPosition;
+  _DetailDevicePageState(this.recordDevice, this.currentPosition);
+  int _uDeviceIDTaken;
+  DevicePlant _devicePlant;
   //Future<List<DevicePlant>> _getDevicePlants() async {
   Future<List<DevicePlant>> _getDevicePlants() async {
-    var data = await http
-        .get("http://www.json-generator.com/api/json/get/cguiCSVXLS?indent=2");
+    _uDeviceIDTaken = recordDevice.id;
+    var data = await http.get(
+        "http://192.168.88.17:8000/devicePlants/devicePlants_add/?uDevice_ID=" +
+            "$_uDeviceIDTaken");
+    //.get("http://www.json-generator.com/api/json/get/bTvxNrXjnm?indent=2");
     var jsonData = json.decode(data.body);
 
     List<DevicePlant> allDevicePlants = [];
     for (var p in jsonData) {
       try {
         DevicePlant deviceplants = DevicePlant(
-            p["index"],
-            p["devicePlants_ID"],
+            p["id"],
             p["uDevice_ID"],
             p["spot_1_ID"],
             p["spot_2_ID"],
@@ -40,14 +48,21 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
             p["spot_4_ID"],
             p["spot_5_ID"],
             p["spot_6_ID"],
-            p["currentSpotSize"]);
+            p["currentSpotSize"],
+            p["spot_1_Name"],
+            p["spot_2_Name"],
+            p["spot_3_Name"],
+            p["spot_4_Name"],
+            p["spot_5_Name"],
+            p["spot_6_Name"]);
+
         allDevicePlants.add(deviceplants);
       } catch (e) {
         print("hata burda !!!");
         print(e);
-        print(allDevicePlants);
       }
     }
+    _devicePlant = allDevicePlants[0];
 
     return allDevicePlants;
   }
@@ -57,10 +72,7 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
     "https://smartgardenguide.com/wp-content/uploads/2019/09/click-and-grow-smart-garden-9-photo-3-1024x680.jpeg",
     "https://athomeinthefuture.com/wp-content/uploads/2016/08/clickandgrow-720x447@2x.jpg"
   ];
-  //Device recordDevice;
-  DeviceNew recordDevice;
-  int currentPosition;
-  _DetailDevicePageState(this.recordDevice, this.currentPosition);
+
   List<Color> colorList = [
     Colors.blue,
     Colors.grey[200],
@@ -85,7 +97,6 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
           future: _getDevicePlants(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
-              print("data null");
               return Column(
                 children: <Widget>[
                   Loading(),
@@ -110,17 +121,24 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        _onePlantCard(snapshot.data[0].spot_1_ID, 1),
-                        _onePlantCard(snapshot.data[0].spot_2_ID, 2),
-                        _onePlantCard(snapshot.data[0].spot_3_ID, 3),
+                        //_onePlantCard(5, 1, "Domates", snapshot.data[0].id),
+                        _onePlantCard(snapshot.data[0].spot_1_ID, 1,
+                            snapshot.data[0].spot_1_Name, snapshot.data[0].id),
+                        _onePlantCard(snapshot.data[0].spot_2_ID, 2,
+                            snapshot.data[0].spot_2_Name, snapshot.data[0].id),
+                        _onePlantCard(snapshot.data[0].spot_3_ID, 3,
+                            snapshot.data[0].spot_3_Name, snapshot.data[0].id),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        _onePlantCard(snapshot.data[0].spot_4_ID, 4),
-                        _onePlantCard(snapshot.data[0].spot_5_ID, 5),
-                        _onePlantCard(snapshot.data[0].spot_6_ID, 6),
+                        _onePlantCard(snapshot.data[0].spot_4_ID, 4,
+                            snapshot.data[0].spot_4_Name, snapshot.data[0].id),
+                        _onePlantCard(snapshot.data[0].spot_5_ID, 5,
+                            snapshot.data[0].spot_5_Name, snapshot.data[0].id),
+                        _onePlantCard(snapshot.data[0].spot_6_ID, 6,
+                            snapshot.data[0].spot_6_Name, snapshot.data[0].id),
                       ],
                     ),
                   ],
@@ -131,8 +149,9 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
     );
   }
 
-  Widget _onePlantCard(int plantID, int spotPoint) {
-    if (plantID == null) {
+  Widget _onePlantCard(
+      int plantID, int spotPoint, String plantName, int takenDevicePlants_ID) {
+    if (plantID == 0) {
       return InkWell(
         onTap: () {
           Navigator.push(
@@ -141,6 +160,7 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
               pageBuilder: (context, a, b) => AddPlantPage(
                 recordDevice: recordDevice,
                 currentSpot: spotPoint,
+                takenDevicePlants_ID: takenDevicePlants_ID,
               ),
             ),
           );
@@ -173,7 +193,41 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
           ),
         ),
       );
-    } else {}
+    } else {
+      return InkWell(
+        onTap: () {
+          print("plant picture printed!");
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, a, b) => DetailPlant(
+                recordDevice: recordDevice,
+                spotID: plantID,
+              ),
+            ),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            height: 100,
+            width: 100,
+            child: Card(
+              clipBehavior: Clip.antiAlias,
+              shadowColor: Colors.grey[700],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              color: Colors.grey[200],
+              elevation: 5.0,
+              child: AspectRatio(
+                  aspectRatio: 1,
+                  child: Image.asset("assets/images/" + plantName + ".jpg")),
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -335,26 +389,37 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
 }
 
 class DevicePlant {
-  final int index;
-  final int devicePlants_ID;
+  final int id;
   final int uDevice_ID;
-  final String spot_1_ID;
-  final String spot_2_ID;
-  final String spot_3_ID;
-  final String spot_4_ID;
-  final String spot_5_ID;
-  final String spot_6_ID;
+  final int spot_1_ID;
+  final int spot_2_ID;
+  final int spot_3_ID;
+  final int spot_4_ID;
+  final int spot_5_ID;
+  final int spot_6_ID;
   final int currentSpotSize;
+  final String spot_1_Name;
+  final String spot_2_Name;
+  final String spot_3_Name;
+  final String spot_4_Name;
+  final String spot_5_Name;
+  final String spot_6_Name;
 
   DevicePlant(
-      this.index,
-      this.devicePlants_ID,
-      this.uDevice_ID,
-      this.spot_1_ID,
-      this.spot_2_ID,
-      this.spot_3_ID,
-      this.spot_4_ID,
-      this.spot_5_ID,
-      this.spot_6_ID,
-      this.currentSpotSize);
+    this.id,
+    this.uDevice_ID,
+    this.spot_1_ID,
+    this.spot_2_ID,
+    this.spot_3_ID,
+    this.spot_4_ID,
+    this.spot_5_ID,
+    this.spot_6_ID,
+    this.currentSpotSize,
+    this.spot_1_Name,
+    this.spot_2_Name,
+    this.spot_3_Name,
+    this.spot_4_Name,
+    this.spot_5_Name,
+    this.spot_6_Name,
+  );
 }

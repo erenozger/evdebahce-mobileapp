@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:story/homescreen.dart';
 import 'package:story/models/django_user.dart';
 import 'package:story/pages/wifi_Connection_page.dart';
 import 'package:story/screens/login_screen.dart';
 import 'package:story/services/database_service.dart';
+import 'package:story/shared/loading.dart';
+import 'package:sweetalert/sweetalert.dart';
 
 class AddDevicePage extends StatefulWidget {
   @override
@@ -19,13 +22,16 @@ class _AddDevicePageState extends State<AddDevicePage> {
       _connectionDate;
   List<String> _deviceTypes = ["Infinia Device Type 1"];
   int _userID;
+  bool _loadingOption = false;
 
   Future<void> _submitDevice() async {
+    setState(() {
+      _loadingOption = true;
+    });
     print("submitdevice geldi!!");
     if (_deviceFormKey.currentState.validate()) {
       _deviceFormKey.currentState.save();
-      print(_deviceName);
-      print(_deviceType);
+
       SharedPreferences prefs = await SharedPreferences.getInstance();
       if (prefs != null) {
         var token = prefs.getString('user_token');
@@ -41,63 +47,90 @@ class _AddDevicePageState extends State<AddDevicePage> {
         print("Device ekleme fonksiyonu çalışmadı!");
       }
     }
+    SweetAlert.show(
+      context,
+      title: "Congratulations!!",
+      subtitle:
+          "Your Device added to system,you can go My Devices page to see more details.",
+      style: SweetAlertStyle.success,
+      confirmButtonColor: Colors.green,
+      onPress: (bool isConfirm) {
+        if (isConfirm) {
+          SweetAlert.show(context,
+              subtitle: "Loading...", style: SweetAlertStyle.loading);
+          new Future.delayed(new Duration(seconds: 2), () {
+            Navigator.popUntil(context, ModalRoute.withName('/'));
+          });
+        } else {
+          SweetAlert.show(context,
+              subtitle: "Canceled!", style: SweetAlertStyle.error);
+        }
+        // return false to keep dialog
+        return false;
+      },
+    );
+    setState(
+      () {},
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        bottom: false,
-        child: Stack(
-          children: <Widget>[
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+    return _loadingOption
+        ? Loading()
+        : Scaffold(
+            body: SafeArea(
+              bottom: false,
+              child: Stack(
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(32.0),
+                  SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        SizedBox(height: 30),
-                        Text(
-                          "Add Device Page",
-                          style: TextStyle(
-                            fontFamily: 'Avenir',
-                            fontSize: 35,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
+                        Padding(
+                          padding: const EdgeInsets.all(32.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SizedBox(height: 30),
+                              Text(
+                                "Add Device Page",
+                                style: TextStyle(
+                                  fontFamily: 'Avenir',
+                                  fontSize: 35,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                "Please open your bluetooth and choose your device. ",
+                                style: TextStyle(
+                                  fontFamily: 'Avenir',
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
-                          textAlign: TextAlign.center,
                         ),
-                        Text(
-                          "Please open your bluetooth and choose your device. ",
-                          style: TextStyle(
-                            fontFamily: 'Avenir',
-                            fontSize: 18,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                        DeviceForm(),
                       ],
                     ),
                   ),
-                  DeviceForm(),
+                  IconButton(
+                    icon: Icon(Icons.arrow_back_ios),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
                 ],
               ),
             ),
-            IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   Widget DeviceForm() {

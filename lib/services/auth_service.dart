@@ -30,7 +30,7 @@ class AuthService {
 
         void userCreateHTTP(username, email, password) async {
           final response = await http
-              .post('http://192.168.88.21:8000/api/auth/register', body: {
+              .post('http://192.168.88.17:8000/api/auth/register', body: {
             "email": email,
             "first_name": username,
             "last_name": "",
@@ -86,7 +86,7 @@ class AuthService {
     try {
       print("LoginAPI fonksiyonu calısti");
       final response = await http.post(
-          'http://192.168.88.21:8000/api/auth/login',
+          'http://192.168.88.17:8000/api/auth/login',
           body: {"email": email, "password": password});
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);

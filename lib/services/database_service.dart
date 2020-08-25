@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:story/homescreen.dart';
 import 'package:story/models/user_model.dart';
 import 'package:story/utilities/constants.dart';
 import 'package:http/http.dart' as http;
@@ -27,7 +28,7 @@ class DatabaseService {
       String deviceName, String deviceType, int takenUserID) async {
     try {
       final response = await http
-          .post('http://192.168.88.21:8000/device/adddevice_api', body: {
+          .post('http://192.168.88.17:8000/device/adddevice_api', body: {
         "device_type": deviceType,
         "device_picture":
             "https://assets.wsimgs.com/wsimgs/ab/images/dp/wcm/202012/0988/img26c.jpg",
@@ -52,15 +53,11 @@ class DatabaseService {
   }
 
   static add_uDevice(takenUserID, takenDeviceID, deviceName) async {
-    print("--------------------------------------");
-    print("add_udevice");
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(now);
-    print("formatted date " + formattedDate);
-    print("user id -> : " + '$takenUserID');
-    print("--------------------------------------");
+
     final response2 = await http.post(
-      'http://192.168.88.21:8000/userDevices/add_device_user',
+      'http://192.168.88.17:8000/userDevices/add_device_user',
       body: {
         "user_ID": "$takenUserID",
         "device_ID": "$takenDeviceID",
@@ -73,12 +70,113 @@ class DatabaseService {
     );
 
     if (response2.statusCode == 200) {
+      final jsonData = json.decode(response2.body);
+      getuDeviceID getudeviceid = new getuDeviceID.fromJson(jsonData);
+      int takenUDeviceID = getudeviceid.udevice_id;
+
       print("udevice ekleme gönderildi");
+
+      add_DevicePlants(takenUDeviceID);
     } else {
       print("udevice gönderilme hata verdi ");
       throw Exception('udevice error verdi');
     }
-    print(response2.body);
+    //print(response2.body);
+  }
+
+  static add_DevicePlants(int udevice_id) async {
+    final response3 = await http.post(
+      'http://192.168.88.17:8000/devicePlants/devicePlants_add/',
+      body: {
+        "uDevice_ID": "$udevice_id",
+        "spot_1_ID": "0",
+        "spot_2_ID": "0",
+        "spot_3_ID": "0",
+        "spot_4_ID": "0",
+        "spot_5_ID": "0",
+        "spot_6_ID": "0",
+        "spot_1_Name": "null",
+        "spot_2_Name": "null",
+        "spot_3_Name": "null",
+        "spot_4_Name": "null",
+        "spot_5_Name": "null",
+        "spot_6_Name": "null",
+        "currentSpotSize": "0"
+      },
+    );
+    if (response3.statusCode == 200) {
+      final jsonData = json.decode(response3.body);
+      print("response 3 geldi ");
+    } else {
+      throw Exception("device plants not added!");
+    }
+
+    print(response3.body);
+    print("--------------------------------------");
+  }
+
+  static addPlants(
+      int devicePlantsID,
+      int remainingTime,
+      String startingDate,
+      String plantName,
+      int avgGrowTime,
+      String plantDescription,
+      String plantTips,
+      String deviceInfo,
+      int currentSpot) async {
+    print(devicePlantsID);
+    print(remainingTime);
+    print(avgGrowTime);
+    print(startingDate);
+    print(plantName);
+    print(plantDescription);
+    print(plantTips);
+    print(deviceInfo);
+    try {
+      final responsePlant = await http.post(
+        'http://192.168.88.17:8000/deviceSlots/deviceSlots_add/',
+        body: {
+          "devicePlants_ID": "$devicePlantsID",
+          "remaining_Time": "$remainingTime",
+          "starting_Date": startingDate,
+          "plant_Name": plantName,
+          "avg_GrowTime": "$avgGrowTime",
+          "plant_Description": plantDescription,
+          "plant_Tips": plantTips,
+          "device_Info": deviceInfo
+        },
+      );
+      if (responsePlant.statusCode == 200) {
+        print("Spota plant eklendi");
+        print(responsePlant.body);
+        final jsonData = json.decode(responsePlant.body);
+        getSpotID getspotID = new getSpotID.fromJson(jsonData);
+        int takenSpotID = getspotID.spot_ID;
+        print(takenSpotID);
+        updateuDevice(currentSpot, takenSpotID, plantName);
+      } else {
+        print("spota plant eklenemedi");
+      }
+    } catch (e) {
+      print("hata burda " + e.toString());
+    }
+  }
+
+  static updateuDevice(
+      int spotNumber, int newSpotID, String newPlantName) async {
+    final responseUpdate = await http.post(
+        "http://192.168.88.17:8000/deviceSlots/deviceSlotsUpdate/?spot_Number=" +
+            "$spotNumber" +
+            "&spot_ID=" +
+            "$newSpotID" +
+            "&spot_Name=" +
+            newPlantName);
+    if (responseUpdate.statusCode == 200) {
+      print("basarıyla guncellendi!");
+    } else {
+      print("güncellenemedi!");
+    }
   }
 }
 
@@ -91,5 +189,29 @@ class getDeviceID {
 
   factory getDeviceID.fromJson(Map<String, dynamic> jsonData) {
     return getDeviceID(device_id: jsonData['device_id']);
+  }
+}
+
+class getuDeviceID {
+  final int udevice_id;
+
+  getuDeviceID({
+    this.udevice_id,
+  });
+
+  factory getuDeviceID.fromJson(Map<String, dynamic> jsonData) {
+    return getuDeviceID(udevice_id: jsonData['uDevice_ID']);
+  }
+}
+
+class getSpotID {
+  final int spot_ID;
+
+  getSpotID({
+    this.spot_ID,
+  });
+
+  factory getSpotID.fromJson(Map<String, dynamic> jsonData) {
+    return getSpotID(spot_ID: jsonData['spot_ID']);
   }
 }
