@@ -60,7 +60,8 @@ class _AddPlantPageState extends State<AddPlantPage> {
             avgGrowTime,
             plantDescription,
             plantTips,
-            deviceInfo,_currentSpot) !=
+            deviceInfo,
+            _currentSpot) !=
         null) {
       print("Plant başarıyla sisteme eklendi!");
     } else {
@@ -81,7 +82,7 @@ class _AddPlantPageState extends State<AddPlantPage> {
         _devicePlantsID = _takenDevicePlants_ID;
         _remainingTime = allPlants[_selectedPlant].avg_GrowTime;
         DateTime now = DateTime.now();
-        String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+        String formattedDate = DateFormat('yyyy-MM-dd').format(now);
         _starting_Date = formattedDate;
         _plantName = allPlants[_selectedPlant].plant_Name;
         _avg_Growtime = allPlants[_selectedPlant].avg_GrowTime;
@@ -103,6 +104,7 @@ class _AddPlantPageState extends State<AddPlantPage> {
         new Future.delayed(new Duration(seconds: 2), () {
           SweetAlert.show(context,
               subtitle: "Success!", style: SweetAlertStyle.success);
+          Navigator.popUntil(context, ModalRoute.withName('/'));
         });
       } else {
         SweetAlert.show(context,

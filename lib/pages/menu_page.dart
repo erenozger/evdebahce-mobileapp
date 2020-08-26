@@ -36,8 +36,10 @@ class _MenuPageState extends State<MenuPage> {
     } else {
       print("local storage null veri yok !");
     }
+
     var data = await http.get(
-        "http://192.168.88.17:8000/userDevices/get_userDevice/?user_ID=$_takenUserID");
+        //"http://192.168.88.17:8000/userDevices/get_userDevice/?user_ID=$_takenUserID");
+        "http://sedefbostanci.pythonanywhere.com/userDevices/get_userDevice/?user_ID=$_takenUserID");
     //"https://next.json-generator.com/api/json/get/EygJ-2PMt");
     var jsonData = json.decode(data.body);
 

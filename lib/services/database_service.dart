@@ -28,13 +28,15 @@ class DatabaseService {
       String deviceName, String deviceType, int takenUserID) async {
     try {
       final response = await http
-          .post('http://192.168.88.17:8000/device/adddevice_api', body: {
-        "device_type": deviceType,
-        "device_picture":
-            "https://assets.wsimgs.com/wsimgs/ab/images/dp/wcm/202012/0988/img26c.jpg",
-        "device_description":
-            "This is detailed description of evdebahce device,Infina intern project automatic grow plant system.",
-      });
+          //.post('http://192.168.88.17:8000/device/adddevice_api', body: {
+          .post('http://sedefbostanci.pythonanywhere.com/device/adddevice_api',
+              body: {
+            "device_type": deviceType,
+            "device_picture":
+                "https://assets.wsimgs.com/wsimgs/ab/images/dp/wcm/202012/0988/img26c.jpg",
+            "device_description":
+                "This is detailed description of evdebahce device,Infina intern project automatic grow plant system.",
+          });
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
 
@@ -57,7 +59,8 @@ class DatabaseService {
     String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(now);
 
     final response2 = await http.post(
-      'http://192.168.88.17:8000/userDevices/add_device_user',
+      //'http://192.168.88.17:8000/userDevices/add_device_user',
+      'http://sedefbostanci.pythonanywhere.com/userDevices/add_device_user',
       body: {
         "user_ID": "$takenUserID",
         "device_ID": "$takenDeviceID",
@@ -86,7 +89,8 @@ class DatabaseService {
 
   static add_DevicePlants(int udevice_id) async {
     final response3 = await http.post(
-      'http://192.168.88.17:8000/devicePlants/devicePlants_add/',
+      //'http://192.168.88.17:8000/devicePlants/devicePlants_add/',
+      'http://sedefbostanci.pythonanywhere.com/devicePlants/devicePlants_add/',
       body: {
         "uDevice_ID": "$udevice_id",
         "spot_1_ID": "0",
@@ -135,7 +139,8 @@ class DatabaseService {
     print(deviceInfo);
     try {
       final responsePlant = await http.post(
-        'http://192.168.88.17:8000/deviceSlots/deviceSlots_add/',
+        //'http://192.168.88.17:8000/deviceSlots/deviceSlots_add/',
+        'http://sedefbostanci.pythonanywhere.com/deviceSlots/deviceSlots_add/',
         body: {
           "devicePlants_ID": "$devicePlantsID",
           "remaining_Time": "$remainingTime",
@@ -166,7 +171,8 @@ class DatabaseService {
   static updateuDevice(
       int spotNumber, int newSpotID, String newPlantName) async {
     final responseUpdate = await http.post(
-        "http://192.168.88.17:8000/deviceSlots/deviceSlotsUpdate/?spot_Number=" +
+        //"http://192.168.88.17:8000/deviceSlots/deviceSlotsUpdate/?spot_Number=" +
+        "http://sedefbostanci.pythonanywhere.com/deviceSlots/deviceSlotsUpdate/?spot_Number=" +
             "$spotNumber" +
             "&spot_ID=" +
             "$newSpotID" +
@@ -176,6 +182,19 @@ class DatabaseService {
       print("basarıyla guncellendi!");
     } else {
       print("güncellenemedi!");
+    }
+  }
+
+  static deletePlant(int spotID, int spotNumber) async {
+    print("spot ID " + "$spotID");
+    print("spot Number " + "$spotNumber");
+    final responseDelete = await http.delete(
+        //"http://192.168.88.17:8000/deviceSlots/delete_deviceSpots/$spotID/$spotNumber");
+        "http://sedefbostanci.pythonanywhere.com/deviceSlots/delete_deviceSpots/$spotID/$spotNumber");
+    if (responseDelete.statusCode == 200) {
+      print("plant başarıyla silindi!");
+    } else {
+      print("plant silinemedi!");
     }
   }
 }

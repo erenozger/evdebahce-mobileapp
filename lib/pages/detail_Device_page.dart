@@ -31,7 +31,7 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
   Future<List<DevicePlant>> _getDevicePlants() async {
     _uDeviceIDTaken = recordDevice.id;
     var data = await http.get(
-        "http://192.168.88.17:8000/devicePlants/devicePlants_add/?uDevice_ID=" +
+        "http://sedefbostanci.pythonanywhere.com/devicePlants/devicePlants_add/?uDevice_ID=" +
             "$_uDeviceIDTaken");
     //.get("http://www.json-generator.com/api/json/get/bTvxNrXjnm?indent=2");
     var jsonData = json.decode(data.body);
@@ -152,7 +152,7 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
   Widget _onePlantCard(
       int plantID, int spotPoint, String plantName, int takenDevicePlants_ID) {
     if (plantID == 0) {
-      return InkWell(
+      return GestureDetector(
         onTap: () {
           Navigator.push(
             context,
@@ -203,6 +203,7 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
               pageBuilder: (context, a, b) => DetailPlant(
                 recordDevice: recordDevice,
                 spotID: plantID,
+                currentSpot: spotPoint,
               ),
             ),
           );
@@ -222,7 +223,10 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
               elevation: 5.0,
               child: AspectRatio(
                   aspectRatio: 1,
-                  child: Image.asset("assets/images/" + plantName + ".jpg")),
+                  child: Hero(
+                      tag: plantID,
+                      child:
+                          Image.asset("assets/images/" + plantName + ".png"))),
             ),
           ),
         ),
