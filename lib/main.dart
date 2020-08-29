@@ -8,6 +8,7 @@ import 'package:story/homescreen.dart';
 import 'package:story/models/story_model.dart';
 import 'package:story/models/user_data.dart';
 import 'package:story/models/user_model.dart';
+import 'package:story/pages/dashboard_page.dart';
 import 'package:story/screens/login_screen.dart';
 import 'package:story/screens/signup_screen.dart';
 import 'package:video_player/video_player.dart';

@@ -72,7 +72,6 @@ class _MenuPageState extends State<MenuPage> {
           future: _getNewDevices(), //django backend API
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
-              print("data null");
               return Column(
                 children: <Widget>[
                   SizedBox(
@@ -81,6 +80,8 @@ class _MenuPageState extends State<MenuPage> {
                   Loading(),
                 ],
               );
+            } else if (snapshot.hasError || snapshot.data.length == 0) {
+              return _errorWidget();
             } else {
               return SafeArea(
                 child: Column(
@@ -212,6 +213,14 @@ class _MenuPageState extends State<MenuPage> {
               );
             }
           }),
+    );
+  }
+
+  Widget _errorWidget() {
+    return Container(
+      child: Center(
+        child: Text("bos devices"),
+      ),
     );
   }
 

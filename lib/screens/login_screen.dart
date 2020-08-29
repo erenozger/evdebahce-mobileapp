@@ -29,6 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      setState(() => loading = true);
       if (await AuthService.loginAPI(context, _email, _password) != null) {
         djangoUser = await AuthService.loginAPI(context, _email, _password);
 
@@ -51,7 +52,6 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         print("kullanıcı giremedi");
       }
-      setState(() => loading = true);
 
       if (await AuthService.login(context, _email, _password) != null) {
         print("Succesfully logged in");

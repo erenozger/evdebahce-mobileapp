@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:story/homescreen.dart';
 import 'package:story/models/django_user.dart';
+import 'package:story/pages/menu_page.dart';
 import 'package:story/pages/wifi_Connection_page.dart';
 import 'package:story/screens/login_screen.dart';
 import 'package:story/services/database_service.dart';
@@ -59,7 +60,15 @@ class _AddDevicePageState extends State<AddDevicePage> {
           SweetAlert.show(context,
               subtitle: "Loading...", style: SweetAlertStyle.loading);
           new Future.delayed(new Duration(seconds: 2), () {
+            /*Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MenuPage()),
+            ).then((value) => setState(() {}));*/
+            //widget.refresh();
+
             Navigator.popUntil(context, ModalRoute.withName('/'));
+            /*Navigator.of(context)
+                .pushNamedAndRemoveUntil('/', ModalRoute.withName('/'));*/
           });
         } else {
           SweetAlert.show(context,

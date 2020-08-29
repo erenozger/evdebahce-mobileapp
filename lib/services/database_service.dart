@@ -197,6 +197,18 @@ class DatabaseService {
       print("plant silinemedi!");
     }
   }
+
+  static deleteDevice(int deviceID) async {
+    print("deviceID :" + "$deviceID");
+
+    final responseDelete = await http.delete(
+        "http://sedefbostanci.pythonanywhere.com/device/delete_Device/$deviceID ");
+    if (responseDelete.statusCode == 200) {
+      print("Device başarıyla silindi!");
+    } else {
+      print("Device silinemedi!");
+    }
+  }
 }
 
 class getDeviceID {

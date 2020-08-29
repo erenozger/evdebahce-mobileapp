@@ -4,9 +4,11 @@ import 'package:story/pages/detail_Plant_page.dart';
 import 'package:story/pages/menu_page.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:http/http.dart' as http;
+import 'package:story/services/database_service.dart';
 import 'dart:convert';
 
 import 'package:story/shared/loading.dart';
+import 'package:sweetalert/sweetalert.dart';
 
 class DetailDevicePage extends StatefulWidget {
   final DeviceNew recordDevice;
@@ -356,7 +358,31 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
                                 )),
                           );
                         }),
-                  )
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Center(
+                    child: RaisedButton.icon(
+                      icon: Icon(Icons.delete_forever),
+                      onPressed: () {
+                        print("delete button activated");
+                        _deleteDevice(recordDevice.device_id);
+                      },
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      textColor: Colors.white,
+                      color: Color(0xFFDA1D21),
+                      label: Text("Delete Device"),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(30),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
                 ],
               ),
             ),
@@ -389,6 +415,40 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
         ),
       ),
     );
+  }
+
+  Future<void> _deleteDevice(int deviceID) async {
+    print("deleted device");
+    print(deviceID);
+    SweetAlert.show(context,
+        subtitle: "Do you want to delete this Device?",
+        style: SweetAlertStyle.confirm,
+        showCancelButton: true, onPress: (bool isConfirm) {
+      if (isConfirm) {
+        _deleteDevice2(deviceID);
+        SweetAlert.show(context,
+            subtitle: "Deleting...", style: SweetAlertStyle.loading);
+        new Future.delayed(new Duration(seconds: 2), () {
+          SweetAlert.show(context,
+              subtitle: "Success!", style: SweetAlertStyle.success);
+          //Navigator.popUntil(context, ModalRoute.withName('/'));
+        });
+      } else {
+        SweetAlert.show(context,
+            subtitle: "Canceled!", style: SweetAlertStyle.error);
+      }
+      // return false to keep dialog
+      return false;
+    });
+  }
+
+  Future<void> _deleteDevice2(int deviceID) async {
+    print("confirmed.!");
+    if (await DatabaseService.deleteDevice(deviceID) != null) {
+      print("basarıyla silindi.");
+    } else {
+      print("silinemedi.");
+    }
   }
 }
 
