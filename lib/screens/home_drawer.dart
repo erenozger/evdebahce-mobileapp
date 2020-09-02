@@ -51,19 +51,22 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   child: Center(
                     child: Column(
                       children: <Widget>[
-                        Container(
-                          width: 100,
-                          height: 100,
-                          margin: EdgeInsets.only(
-                            top: 30,
-                            bottom: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  'https://scribbleghost.net/wp-content/uploads/2019/07/ScribbleGhost-Logo-White-PNG-558px.png'),
-                              fit: BoxFit.fill,
+                        Hero(
+                          tag: "avatar",
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            margin: EdgeInsets.only(
+                              top: 30,
+                              bottom: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                    'https://scribbleghost.net/wp-content/uploads/2019/07/ScribbleGhost-Logo-White-PNG-558px.png'),
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
                         ),
@@ -162,7 +165,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
 }
 
 class LogOutButton extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return Padding(

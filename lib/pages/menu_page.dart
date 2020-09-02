@@ -88,7 +88,7 @@ class _MenuPageState extends State<MenuPage> {
                   //crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
-                      height: 0,
+                      height: 20,
                     ),
                     Text(
                       'Your Devices',
@@ -103,7 +103,7 @@ class _MenuPageState extends State<MenuPage> {
                       height: 0,
                     ),
                     Container(
-                      height: 400,
+                      height: 350,
                       child: Swiper(
                         itemCount: snapshot.data.length,
                         itemWidth: MediaQuery.of(context).size.width - 2 * 64,
@@ -111,8 +111,8 @@ class _MenuPageState extends State<MenuPage> {
                         pagination: SwiperPagination(
                           builder: DotSwiperPaginationBuilder(
                             activeColor: Colors.green,
-                            color: Colors.grey[900],
-                            activeSize: 20,
+                            color: Colors.white,
+                            activeSize: 15,
                             space: 8,
                           ),
                         ),

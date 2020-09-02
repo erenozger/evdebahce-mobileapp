@@ -31,7 +31,9 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text("Manage Password"),
+            SizedBox(height: 20),
+            Text("Manage Password",
+                style: TextStyle(fontWeight: FontWeight.w500)),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 0.0),
               child: TextFormField(

@@ -273,7 +273,7 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
                           ),
                           textAlign: TextAlign.left,
                         ),
-                        Divider(color: Colors.black38),
+                        //Divider(color: Colors.black38),
                         SizedBox(height: 10.0),
                         Text(
                           'Detailed Description of this device!!',
@@ -286,7 +286,7 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
                           textAlign: TextAlign.left,
                         ),
                         SizedBox(height: 20.0),
-                        Divider(color: Colors.black38),
+                        //Divider(color: Colors.black38),
                       ],
                     ),
                   ),
@@ -322,9 +322,9 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
                     chartType: ChartType.ring,
                   ),
                   SizedBox(height: 20),
-                  Divider(color: Colors.black38),
+                  //Divider(color: Colors.black38),
                   _plantsWidget(),
-                  Divider(color: Colors.black38),
+                  //Divider(color: Colors.black38),
                   Padding(
                     padding: const EdgeInsets.only(left: 32),
                     child: Text(

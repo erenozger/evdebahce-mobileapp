@@ -84,14 +84,14 @@ class _UserProfileState extends State<UserProfile> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    /*decoration: BoxDecoration(
+                    decoration: BoxDecoration(
                       image: DecorationImage(
                         image: NetworkImage(
                             "https://assets.wsimgs.com/wsimgs/ab/images/dp/wcm/202012/0988/img26c.jpg"),
                         fit: BoxFit.cover,
                       ),
-                    ),*/
-                    color: Colors.green,
+                    ),
+                    //color: Colors.green,
                     height: MediaQuery.of(context).size.height * 0.35,
                     child: Stack(
                       children: <Widget>[
@@ -104,17 +104,20 @@ class _UserProfileState extends State<UserProfile> {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                CircleAvatar(
-                                  maxRadius: 50.0,
-                                  backgroundImage: NetworkImage(
-                                      "https://scribbleghost.net/wp-content/uploads/2019/07/ScribbleGhost-Logo-White-PNG-558px.png"),
+                                Hero(
+                                  tag: "avatar",
+                                  child: CircleAvatar(
+                                    maxRadius: 50.0,
+                                    backgroundImage: NetworkImage(
+                                        "https://scribbleghost.net/wp-content/uploads/2019/07/ScribbleGhost-Logo-White-PNG-558px.png"),
+                                  ),
                                 ),
                                 SizedBox(height: 8.0),
                                 Text(
                                   _profileUser.name,
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 21.0,
+                                    fontSize: 24.0,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -123,7 +126,7 @@ class _UserProfileState extends State<UserProfile> {
                                   _profileUser.email,
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 12.0,
+                                    fontSize: 16.0,
                                   ),
                                 ),
                               ],
@@ -143,8 +146,8 @@ class _UserProfileState extends State<UserProfile> {
                               children: <Widget>[
                                 _items("3", "TOTAL DEVICES"),
                                 _items("12", "TOTAL PLANTS"),
-                                _items("--------", "------ "),
-                                _items("--------", "------ "),
+                                /* _items("--------", "------ "),
+                                _items("--------", "------ "),*/
                               ],
                             ),
                           ),
