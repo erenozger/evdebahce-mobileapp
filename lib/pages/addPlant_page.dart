@@ -82,7 +82,9 @@ class _AddPlantPageState extends State<AddPlantPage> {
         _devicePlantsID = _takenDevicePlants_ID;
         _remainingTime = allPlants[_selectedPlant].avg_GrowTime;
         DateTime now = DateTime.now();
-        String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+        //String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+        String formattedDate = DateFormat('yyyy-MM-dd hh:mm:ss').format(now);
+
         _starting_Date = formattedDate;
         _plantName = allPlants[_selectedPlant].plant_Name;
         _avg_Growtime = allPlants[_selectedPlant].avg_GrowTime;

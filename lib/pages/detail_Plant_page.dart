@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:story/pages/backgrounds/DetailPlant_background.dart';
 import 'package:story/pages/menu_page.dart';
 import 'package:story/services/database_service.dart';
@@ -126,17 +127,31 @@ class _DetailPlantState extends State<DetailPlant> {
     int _remainingTime = takenPlantInfo.remaining_Time;
     int _avgGrowTime = takenPlantInfo.avg_GrowTime;
     String _startingDate = takenPlantInfo.starting_Date;
-    print(_startingDate);
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('dd-MM-yyyy').format(now);
-    print(formattedDate);
-    final differenceInDays = now.difference(now).inHours;
-    print(differenceInDays);
-
     DateTime dob = DateTime.parse(_startingDate);
     Duration dur = DateTime.now().difference(dob);
     String _differenceInHours = (dur.inHours).floor().toString();
-    print(_differenceInHours + ' hours');
+    String _differenceInMinutes = (dur.inMinutes).floor().toString();
+    int _mindiff = int.parse(_differenceInMinutes);
+    _mindiff = _mindiff - 60 * 12;
+    int _hourDiff;
+    int _printHours;
+    if (int.parse(_differenceInHours) > 24) {
+      _hourDiff = 23 - ((int.parse(_differenceInHours) - 12) % 24);
+      _printHours = (_hourDiff);
+    } else {
+      _hourDiff = (int.parse(_differenceInHours) - 12);
+      _printHours = (23 - _hourDiff);
+    }
+
+    int _remainingMinutes = ((_remainingTime * 1440 - _mindiff) % 60);
+    double _remainingDays = ((_remainingTime * 1440 - _mindiff) / 1440);
+    int _printDays = _remainingDays.toInt();
+    double _progressValue = _mindiff / (_avgGrowTime * 1440);
+    print("progress value : " + "$_progressValue");
+    String _formattedProgressValue = _progressValue.toStringAsFixed(2);
+
+    double _tempPv = double.parse(_formattedProgressValue);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32.0),
       child: Column(
@@ -156,7 +171,30 @@ class _DetailPlantState extends State<DetailPlant> {
               ),
               Stack(
                 children: <Widget>[
-                  Container(
+                  Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(15, 15, 15, 5),
+                        child: new LinearPercentIndicator(
+                          width: MediaQuery.of(context).size.width / 2,
+                          animation: true,
+                          lineHeight: 20.0,
+                          animationDuration: 2000,
+                          percent: _progressValue,
+                          center: Text(_formattedProgressValue + "%"),
+                          linearStrokeCap: LinearStrokeCap.roundAll,
+                          progressColor: Colors.green,
+                        ),
+                      ),
+                      Text("$_printDays" +
+                          "days " +
+                          "$_printHours" +
+                          "hours " +
+                          "$_remainingMinutes" +
+                          "minutes left."),
+                    ],
+                  ),
+                  /*Container(
                     width: screenWidth * 0.5,
                     height: 10,
                     decoration: BoxDecoration(
@@ -175,9 +213,9 @@ class _DetailPlantState extends State<DetailPlant> {
                           color: Colors.lightGreen,
                           borderRadius: BorderRadius.circular(5)),
                     ),
-                  ),
+                  ),*/
                 ],
-              )
+              ),
             ],
           ),
           Row(

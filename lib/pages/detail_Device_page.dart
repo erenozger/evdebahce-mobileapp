@@ -8,6 +8,7 @@ import 'package:story/services/database_service.dart';
 import 'dart:convert';
 
 import 'package:story/shared/loading.dart';
+import 'package:story/shared/loading2.dart';
 import 'package:sweetalert/sweetalert.dart';
 
 class DetailDevicePage extends StatefulWidget {
@@ -101,7 +102,7 @@ class _DetailDevicePageState extends State<DetailDevicePage> {
             if (snapshot.data == null) {
               return Column(
                 children: <Widget>[
-                  Loading(),
+                  Loading2(),
                 ],
               );
             } else {
