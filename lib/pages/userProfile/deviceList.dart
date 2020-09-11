@@ -26,7 +26,7 @@ class _UserDeviceListState extends State<UserDeviceList> {
     var data = await http.get(
         "http://sedefbostanci.pythonanywhere.com/userDevices/get_userDevice/?user_ID=$_takenUserID");
     var jsonData = json.decode(data.body);
-    print(jsonData);
+
     List<DeviceNew> allNewDevices = [];
     for (var i in jsonData) {
       try {
@@ -44,7 +44,6 @@ class _UserDeviceListState extends State<UserDeviceList> {
         print(e);
       }
     }
-    print(allNewDevices);
 
     return allNewDevices;
   }

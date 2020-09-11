@@ -151,6 +151,7 @@ class _DetailPlantState extends State<DetailPlant> {
     String _formattedProgressValue = _progressValue.toStringAsFixed(2);
 
     double _tempPv = double.parse(_formattedProgressValue);
+    int _printPercent = (_tempPv * 100).toInt();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -180,8 +181,8 @@ class _DetailPlantState extends State<DetailPlant> {
                           animation: true,
                           lineHeight: 20.0,
                           animationDuration: 2000,
-                          percent: _progressValue,
-                          center: Text(_formattedProgressValue + "%"),
+                          percent: _tempPv,
+                          center: Text("$_printPercent" + "%"),
                           linearStrokeCap: LinearStrokeCap.roundAll,
                           progressColor: Colors.green,
                         ),

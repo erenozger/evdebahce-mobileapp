@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:story/models/user_model.dart';
 import 'package:story/pages/faq_page.dart';
 import 'package:story/pages/userProfile/deviceList.dart';
 import 'package:story/pages/userProfile/passwordChange.dart';
 import 'package:story/pages/userProfile/plantList.dart';
 import 'package:story/services/database_service.dart';
+import 'package:story/shared/loading2.dart';
 import 'package:story/utilities/constants.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class UserProfile extends StatefulWidget {
   final String currentUserId;
@@ -33,6 +38,73 @@ class _UserProfileState extends State<UserProfile> {
     });
   }
 
+  int _takenUserID = 0;
+
+  Future _getUserStatistics() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs != null) {
+      var takenUserID = prefs.getInt('user_id');
+      _takenUserID = takenUserID;
+    } else {
+      print("local storage null veri yok !");
+    }
+
+    var data = await http.get(
+        "http://sedefbostanci.pythonanywhere.com/get_statics/" +
+            "$_takenUserID");
+
+    var jsonData = json.decode(data.body);
+    print(jsonData);
+    print("burda --------------------------");
+
+    List keysList = [];
+    List valuesList = [];
+    jsonData.keys.forEach((key) {
+      print(key);
+      keysList.add(key);
+    });
+    jsonData.values.forEach((key) {
+      print(key);
+      valuesList.add(key);
+    });
+
+    print(keysList);
+    print(valuesList);
+    return keysList + valuesList;
+  }
+
+  Widget _userStatistics() {
+    //List _keysList;
+    return FutureBuilder(
+      future: _getUserStatistics(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.data == null) {
+          return Container(
+            child: Text(
+              "Loading..",
+              style: TextStyle(color: Colors.white),
+            ),
+          );
+        } else if (snapshot.hasError || snapshot.data.length == 0) {
+          return Center(
+            child: Text("You dont have plants yet."),
+          );
+        } else {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              for (int i = 0; i < snapshot.data.length / 2; i++)
+                _items(
+                    snapshot.data[i + (snapshot.data.length / 2).toInt()]
+                        .toString(),
+                    snapshot.data[i]),
+            ],
+          );
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,14 +115,15 @@ class _UserProfileState extends State<UserProfile> {
         brightness: Brightness.light,
         backgroundColor: Colors.grey[200],
         title: Center(
-          child: Text('User Profile',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Noteworthy',
-                color: Colors.grey[800],
-                fontSize: 30.0,
-                //fontWeight: FontWeight,
-              )),
+          child: Text(
+            'User Profile',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.montserrat(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+              textStyle: TextStyle(color: Colors.black),
+            ),
+          ),
         ),
         actions: <Widget>[
           FlatButton(
@@ -141,15 +214,17 @@ class _UserProfileState extends State<UserProfile> {
                               vertical: 8.0,
                               horizontal: 16.0,
                             ),
-                            child: Row(
+                            child: _userStatistics(),
+                            /*child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                _items("3", "TOTAL DEVICES"),
-                                _items("12", "TOTAL PLANTS"),
+                                //_getUserStatistics(),
+                                //_items("3", "TOTAL DEVICES"),
+                                //_items("12", "TOTAL PLANTS"),
                                 /* _items("--------", "------ "),
                                 _items("--------", "------ "),*/
                               ],
-                            ),
+                            ),*/
                           ),
                         ),
                       ],

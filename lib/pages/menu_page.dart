@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -38,9 +39,8 @@ class _MenuPageState extends State<MenuPage> {
     }
 
     var data = await http.get(
-        //"http://192.168.88.17:8000/userDevices/get_userDevice/?user_ID=$_takenUserID");
         "http://sedefbostanci.pythonanywhere.com/userDevices/get_userDevice/?user_ID=$_takenUserID");
-    //"https://next.json-generator.com/api/json/get/EygJ-2PMt");
+
     var jsonData = json.decode(data.body);
 
     List<DeviceNew> allNewDevices = [];
@@ -61,7 +61,7 @@ class _MenuPageState extends State<MenuPage> {
         print(e);
       }
     }
-    print(allNewDevices);
+
     return allNewDevices;
   }
 
@@ -92,12 +92,17 @@ class _MenuPageState extends State<MenuPage> {
                     ),
                     Text(
                       'Your Devices',
-                      style: TextStyle(
+                      style: GoogleFonts.montserrat(
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.w400,
+                        textStyle: TextStyle(color: Colors.white),
+                      ),
+                      /*style: TextStyle(
                         fontFamily: 'Avenir',
                         fontSize: 35,
                         color: (Colors.green),
                         fontWeight: FontWeight.w300,
-                      ),
+                      ),*/
                     ),
                     SizedBox(
                       height: 0,
@@ -107,7 +112,8 @@ class _MenuPageState extends State<MenuPage> {
                       child: Swiper(
                         itemCount: snapshot.data.length,
                         itemWidth: MediaQuery.of(context).size.width - 2 * 64,
-                        layout: SwiperLayout.STACK,
+                        layout: SwiperLayout.TINDER,
+                        itemHeight: 400.0,
                         pagination: SwiperPagination(
                           builder: DotSwiperPaginationBuilder(
                             activeColor: Colors.green,
@@ -237,7 +243,7 @@ class _MenuPageState extends State<MenuPage> {
           width: double.infinity,
           height: 80.0,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Color(0xFF101010),
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: ListTile(
@@ -257,8 +263,22 @@ class _MenuPageState extends State<MenuPage> {
               ),
               backgroundColor: Colors.green,
             ),
-            title: Text('ADD Device'),
-            subtitle: Text('Please click to add button to Add new Device'),
+            title: Text(
+              'ADD Device',
+              style: GoogleFonts.montserrat(
+                //fontSize: 16.0,
+                fontWeight: FontWeight.w400,
+                textStyle: TextStyle(color: Colors.white),
+              ),
+            ),
+            subtitle: Text(
+              'Please click to add button to Add new Device',
+              style: GoogleFonts.montserrat(
+                //fontSize: 12.0,
+                fontWeight: FontWeight.w400,
+                textStyle: TextStyle(color: Colors.white),
+              ),
+            ),
           ),
         ),
         _devicesWidget(),

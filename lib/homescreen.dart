@@ -38,18 +38,21 @@ class _HomeScreenState extends State<HomeScreen> {
         brightness: Brightness.light,
         backgroundColor: Color(0xFF202020), //Colors.grey[200],
         title: Center(
-          child: Text('Evde Bahce',
-              //textAlign: TextAlign.center,
-              /*style: TextStyle(
+          child: Text(
+            'Evde Bahce',
+            //textAlign: TextAlign.center,
+            /*style: TextStyle(
               fontFamily: 'Billabong',
               color: Colors.grey[800],
               fontSize: 30.0,
               //fontWeight: FontWeight,
             ),*/
-              style: GoogleFonts.montserrat(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w400,
-                  textStyle: TextStyle(color: Colors.white))),
+            style: GoogleFonts.montserrat(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+              textStyle: TextStyle(color: Colors.white),
+            ),
+          ),
         ),
         actions: <Widget>[
           FlatButton(
@@ -130,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
             BottomNavigationBarItem(
                 backgroundColor: Color(0xFF1B1B1B),
-                icon: Icon(Icons.bluetooth),
+                icon: Icon(Icons.photo),
                 title: Container(
                   height: 5,
                   width: 5,

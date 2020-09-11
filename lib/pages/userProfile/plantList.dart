@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -101,9 +102,10 @@ class _UserPlantListState extends State<UserPlantList> {
                             children: <Widget>[
                               Text(snapshot.data[index].plant_Name),
                               //Text(snapshot.data[index].starting_Date),
-                              Text("Remaining Day : " +
+                              Text("Avg. Grow Time : " +
                                   snapshot.data[index].remaining_Time
-                                      .toString()),
+                                      .toString() +
+                                  " Days"),
                             ],
                           ),
                           trailing: GestureDetector(
@@ -126,28 +128,66 @@ class _UserPlantListState extends State<UserPlantList> {
   }
 
   _detailsPlant(UserPlants onePlant) {
+    int _remainingTime = onePlant.remaining_Time;
+    int _avgGrowTime = onePlant.avg_GrowTime;
+    String _startingDate = onePlant.starting_Date;
+    DateTime dob = DateTime.parse(_startingDate);
+    Duration dur = DateTime.now().difference(dob);
+
+    String _differenceInMinutes = (dur.inMinutes).floor().toString();
+    int _mindiff = int.parse(_differenceInMinutes);
+    _mindiff = _mindiff - 60 * 12;
+
+    double _remainingDays = ((_remainingTime * 1440 - _mindiff) / 1440);
+    int _printDays = _remainingDays.toInt();
+    double _progressValue = _mindiff / (_avgGrowTime * 1440);
+    print("progress value : " + "$_progressValue");
+    String _formattedProgressValue = _progressValue.toStringAsFixed(2);
+    double _tempPv = double.parse(_formattedProgressValue);
+    int _printPercent = (_tempPv * 100).toInt();
+
     Alert(
             context: context,
             title: "DETAILS",
             content: Column(
               children: <Widget>[
-                Text("Devide Name : " + onePlant.device_Name),
+                Text(
+                  "Device Name : " + onePlant.device_Name,
+                  style: GoogleFonts.montserrat(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
+                    textStyle: TextStyle(color: Colors.green),
+                  ),
+                ),
                 SizedBox(
                   height: 20,
                 ),
-                Text("Plant grow date : " + onePlant.starting_Date),
+                Text(
+                  "Plant grow date : " + "\n" + onePlant.starting_Date,
+                  style: GoogleFonts.montserrat(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w400,
+                    textStyle: TextStyle(color: Colors.black),
+                  ),
+                ),
                 SizedBox(
                   height: 20,
                 ),
-                Text(onePlant.remaining_Time.toString() +
-                    " Days Remaining to grow this Plant."),
+                Text(
+                  "Only " + "$_printDays" + " Days to Harvest !",
+                  style: GoogleFonts.montserrat(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w400,
+                    textStyle: TextStyle(color: Colors.black),
+                  ),
+                ),
                 new CircularPercentIndicator(
                   radius: 120.0,
                   lineWidth: 13.0,
                   animation: true,
-                  percent: 0.7,
+                  percent: _tempPv,
                   center: new Text(
-                    "70.0%",
+                    "$_printPercent" + "%",
                     style: new TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 20.0),
                   ),
