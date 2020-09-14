@@ -40,13 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Center(
           child: Text(
             'Evde Bahce',
-            //textAlign: TextAlign.center,
-            /*style: TextStyle(
-              fontFamily: 'Billabong',
-              color: Colors.grey[800],
-              fontSize: 30.0,
-              //fontWeight: FontWeight,
-            ),*/
             style: GoogleFonts.montserrat(
               fontSize: 16.0,
               fontWeight: FontWeight.w400,
@@ -61,13 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.question_answer,
               color: Colors.white,
             ),
-            /*Text(
-              'FAQs',
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),*/
             onPressed: () => Navigator.of(context).push(
               new MaterialPageRoute(
                 builder: (context) => (FAQPage()),
@@ -92,8 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
           selectedItemColor: Colors.green, //Colors.grey[900],
           unselectedLabelStyle: TextStyle(color: Color(0xFF1B1B1B)),
           unselectedItemColor: Color(0xFF888888),
-          //type: BottomNavigationBarType.fixed,
-          //backgroundColor: Colors.grey[200],
+
           backgroundColor: Color(0xFF1B1B1B),
           selectedFontSize: 16,
           items: [
@@ -105,63 +90,36 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 5,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle, color: Colors.green),
-                )
-                /*Text(
-                'Dashboard',
-                style: TextStyle(
-                  fontFamily: 'Avenir',
-                  fontWeight: FontWeight.bold,
-                ),
-              ),*/
-                ),
+                )),
             BottomNavigationBarItem(
-                backgroundColor: Color(0xFF1B1B1B),
-                icon: Icon(Icons.devices),
-                title: Container(
-                  height: 5,
-                  width: 5,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.green),
-                )
-                /*Text(
-                'My Devices',
-                style: TextStyle(
-                  fontFamily: 'Avenir',
-                  fontWeight: FontWeight.bold,
-                ),
-              ),*/
-                ),
+              backgroundColor: Color(0xFF1B1B1B),
+              icon: Icon(Icons.devices),
+              title: Container(
+                height: 5,
+                width: 5,
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.green),
+              ),
+            ),
             BottomNavigationBarItem(
-                backgroundColor: Color(0xFF1B1B1B),
-                icon: Icon(Icons.photo),
-                title: Container(
-                  height: 5,
-                  width: 5,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.green),
-                ) /*Text(
-                'Bluetooth',
-                style: TextStyle(
-                  fontFamily: 'Avenir',
-                  fontWeight: FontWeight.bold,
-                ),
-              ),*/
-                ),
+              backgroundColor: Color(0xFF1B1B1B),
+              icon: Icon(Icons.photo),
+              title: Container(
+                height: 5,
+                width: 5,
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.green),
+              ),
+            ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.notifications),
-                title: Container(
-                  height: 5,
-                  width: 5,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.green),
-                ) /*Text(
-                'Notifications',
-                style: TextStyle(
-                  fontFamily: 'Avenir',
-                  fontWeight: FontWeight.bold,
-                ),
-              ),*/
-                ),
+              icon: Icon(Icons.notifications),
+              title: Container(
+                height: 5,
+                width: 5,
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.green),
+              ),
+            ),
           ],
           onTap: (index) {
             setState(() {
