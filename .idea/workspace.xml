@@ -4,14 +4,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1630579-05b6-4239-86ab-927fd74e6c62" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/homescreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/homescreen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/menu_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/menu_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/single_device.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/single_device.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/home_drawer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/home_drawer.dart" afterDir="false" />
-    </list>
+    <list default="true" id="d1630579-05b6-4239-86ab-927fd74e6c62" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -67,13 +60,13 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="461" y="167" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1597134776394" />
-    <state x="100" y="100" width="1720" height="850" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1597217467031">
+    <state x="100" y="100" width="1720" height="850" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1599865563167">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="100" y="100" width="1720" height="850" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1597217467031" />
-    <state x="656" y="349" key="com.intellij.ide.util.TipDialog" timestamp="1597217876375">
+    <state x="100" y="100" width="1720" height="850" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1599865563167" />
+    <state x="656" y="349" key="com.intellij.ide.util.TipDialog" timestamp="1599860270345">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="656" y="349" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1597217876375" />
+    <state x="656" y="349" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1599860270345" />
   </component>
 </project>

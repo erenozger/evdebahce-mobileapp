@@ -480,7 +480,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           child: AspectRatio(
                               aspectRatio: 1,
                               child: Image.network(
-                                deviceType.deviceImage1,
+                                deviceType.deviceImages[index],
                                 fit: BoxFit.cover,
                               )),
                         );

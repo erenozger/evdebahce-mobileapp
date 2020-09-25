@@ -124,6 +124,7 @@ class _DetailPlantState extends State<DetailPlant> {
   }
 
   Widget _plantContentWidget(screenHeight, screenWidth, takenPlantInfo) {
+    bool _complateBool = true;
     int _remainingTime = takenPlantInfo.remaining_Time;
     int _avgGrowTime = takenPlantInfo.avg_GrowTime;
     String _startingDate = takenPlantInfo.starting_Date;
@@ -149,8 +150,13 @@ class _DetailPlantState extends State<DetailPlant> {
     double _progressValue = _mindiff / (_avgGrowTime * 1440);
     print("progress value : " + "$_progressValue");
     String _formattedProgressValue = _progressValue.toStringAsFixed(2);
+    double _tempPv;
+    if (double.parse(_formattedProgressValue) < 1) {
+      _tempPv = double.parse(_formattedProgressValue);
+    } else {
+      _tempPv = 1.0;
+    }
 
-    double _tempPv = double.parse(_formattedProgressValue);
     int _printPercent = (_tempPv * 100).toInt();
 
     return Padding(
@@ -187,12 +193,18 @@ class _DetailPlantState extends State<DetailPlant> {
                           progressColor: Colors.green,
                         ),
                       ),
-                      Text("$_printDays" +
-                          "days " +
-                          "$_printHours" +
-                          "hours " +
-                          "$_remainingMinutes" +
-                          "minutes left."),
+                      _complateBool
+                          ? Text("$_printDays" +
+                              "days " +
+                              "$_printHours" +
+                              "hours " +
+                              "$_remainingMinutes" +
+                              "minutes left.")
+                          : Text("Grow Time!",
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20)),
                     ],
                   ),
                   /*Container(
